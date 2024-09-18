@@ -85,11 +85,11 @@ void Application::CloseWindowInput()
 
 void Application::LoadResources()
 {
-	/*Shader* shader = resourceManager.Create<Shader>("Shader");
+	Shader* shader = resourceManager.Create<Shader>("Shader");
 	shader->SetVertexShader("Assets/Shaders/VertexShader.glsl");
 	shader->SetFragmentShader("Assets/Shaders/FragmentShader.glsl");
 	shader->Link();
-	Model* cube = resourceManager.Create<Model>("Cube", "Assets/Meshes/cube.obj");
+	/*Model* cube = resourceManager.Create<Model>("Cube", "Assets/Meshes/cube.obj");
 	cube->Load();
 	Texture* defaultTexture = resourceManager.Create<Texture>("DefaultTexture", "Assets/Textures/Default.png");
 	defaultTexture->Load();
