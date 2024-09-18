@@ -85,7 +85,7 @@ void Application::CloseWindowInput()
 
 void Application::LoadResources()
 {
-	Shader* shader = resourceManager.Create<Shader>("Shader");
+	/*Shader* shader = resourceManager.Create<Shader>("Shader");
 	shader->SetVertexShader("Assets/Shaders/VertexShader.glsl");
 	shader->SetFragmentShader("Assets/Shaders/FragmentShader.glsl");
 	shader->Link();
@@ -108,7 +108,7 @@ void Application::LoadResources()
 	Model* rocket = resourceManager.Create<Model>("Rocket", "Assets/Meshes/Rocket.obj");
 	rocket->Load();
 	Texture* rocketTexture = resourceManager.Create<Texture>("RocketTexture", "Assets/Textures/Rocket.jpg");
-	rocketTexture->Load();
+	rocketTexture->Load();*/
 }
 
 void FramebufferSizeCallback(GLFWwindow* window, int width, int height)

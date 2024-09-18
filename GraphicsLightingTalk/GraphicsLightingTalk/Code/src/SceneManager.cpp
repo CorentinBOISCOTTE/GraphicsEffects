@@ -66,7 +66,7 @@ void SampleScene(Scene* scene, GLFWwindow* window, ResourceManager* resourceMana
 	scene->shader = shader;
 
 	//Create Object/Texture
-	Model* cube = resourceManager->Get<Model>("Cube");
+	/*Model* cube = resourceManager->Get<Model>("Cube");
 	Model* earth = resourceManager->Get<Model>("Earth");
 	Model* moon = resourceManager->Get<Model>("Moon");
 	Model* satellite = resourceManager->Get<Model>("Satellite");
@@ -75,7 +75,7 @@ void SampleScene(Scene* scene, GLFWwindow* window, ResourceManager* resourceMana
 	Texture* moonTexture = resourceManager->Get<Texture>("MoonTexture");
 	Texture* satelliteTexture = resourceManager->Get<Texture>("SatelliteTexture");
 	Texture* rocketTexture = resourceManager->Get<Texture>("RocketTexture");
-	Texture* defaultTexture = resourceManager->Get<Texture>("DefaultTexture");
+	Texture* defaultTexture = resourceManager->Get<Texture>("DefaultTexture");*/
 
 	Material* material = new Material(Vector4D(1, 1, 1, 1), Vector4D(1.0f, 1.0f, 1.0f, 1), Vector4D(1, 1, 1, 1));
 	scene->materials.push_back(material);
@@ -133,21 +133,21 @@ void SampleScene(Scene* scene, GLFWwindow* window, ResourceManager* resourceMana
 		scene->lights.push_back(spotLight);
 	}
 
-	scene->sceneGraph.CreateObject("earth", { 0.f, 0.f, -20.f }, { 10.f, 0.f, 0.f }, { 1.f, 1.f, 1.f }, earth, earthTexture, material);
+	/*scene->sceneGraph.CreateObject("earth", { 0.f, 0.f, -20.f }, { 10.f, 0.f, 0.f }, { 1.f, 1.f, 1.f }, earth, earthTexture, material);
 	scene->sceneGraph.CreateObject("earth1", { 0.f, 0.f, -20.f }, { 0.f, 0.f, 0.f }, { 0.5f, 0.5f, 0.5f }, earth, earthTexture, material);
 	scene->sceneGraph.CreateObject("moon", { 0.f, 0.f, 30.f }, { 0.f, 0.f, 0.f }, { 0.7f, 0.7f, 0.7f }, moon, moonTexture, material, scene->sceneGraph.FindObject("earth1"));
 	scene->sceneGraph.CreateObject("moon1", { 0.f, 0.f, 30.f }, { 0.f, 0.f, 0.f }, { 0.6f, 0.6f, 0.6f }, moon, moonTexture, material, scene->sceneGraph.FindObject("earth1"));
 	scene->sceneGraph.CreateObject("satellite", { 0.f, 0.f, 5.f }, { 0.f, 0.f, 0.f }, { 0.001f, 0.001f, 0.001f }, satellite, satelliteTexture, material, scene->sceneGraph.FindObject("earth"));
-	scene->sceneGraph.CreateObject("rocket", { 3.f, 0.f, 0.f }, { 90.f, 0.f, 0.f }, { 0.006f, 0.006f, 0.006f }, rocket, rocketTexture, material, scene->sceneGraph.FindObject("moon1"));
+	scene->sceneGraph.CreateObject("rocket", { 3.f, 0.f, 0.f }, { 90.f, 0.f, 0.f }, { 0.006f, 0.006f, 0.006f }, rocket, rocketTexture, material, scene->sceneGraph.FindObject("moon1"));*/
 }
 
 void UpdateSampleScene(Scene* scene, GLFWwindow* window, ResourceManager* resourceManager)
 {
-	float t = 10.f * MyTime::Get().DeltaTime();
+	/*float t = 10.f * MyTime::Get().DeltaTime();
 	Object* earth = scene->sceneGraph.FindObject("earth");
 	Object* earth1 = scene->sceneGraph.FindObject("earth1");
 	Object* moon1 = scene->sceneGraph.FindObject("moon1");
 	earth->Rotate({ 0.f, t, 0.f });
 	earth1->Rotate({ 0.f, t * 3.f, 0.f});
-	moon1->Rotate({ 0.f, 0.f, -t * 7.f });
+	moon1->Rotate({ 0.f, 0.f, -t * 7.f });*/
 }
