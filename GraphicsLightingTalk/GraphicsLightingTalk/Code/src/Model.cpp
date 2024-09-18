@@ -159,8 +159,7 @@ void Model::Draw(Camera* camera, Shader* shader, std::vector<Light*> lights, mat
     MODEL.GLMCompatible();
     
     GLuint program = shader->GetProgram(); 
-    if (modelType != TYPE::TERRAIN)
-        texture->Bind();
+    texture->Bind();
     shader->SetUniformMatrix4x4("mvp", MVP);
     shader->SetUniformMatrix4x4("normalMVP", normalMVP);
     shader->SetUniformMatrix4x4("model", MODEL);
