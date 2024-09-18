@@ -52,7 +52,7 @@ void Application::Update()
 		MyTime::Get().UpdateDeltaTime();
 		CloseWindowInput();
 
-		glClearColor(0.f, 0.f, 0.1f, 1.f);
+		glClearColor(1.f, 1.f, 1.f, 1.f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		sceneManager.currentScene->camera.Input(MyTime::Get().DeltaTime(), window);
@@ -89,6 +89,10 @@ void Application::LoadResources()
 	shader->SetVertexShader("Assets/Shaders/VertexShader.glsl");
 	shader->SetFragmentShader("Assets/Shaders/FragmentShader.glsl");
 	shader->Link();
+	Terrain terrain;
+	terrain.Load("Assets/Textures/iceland_heightmap.png");
+	Model* map = resourceManager.Create<Model>("Terrain");
+	map->LoadTerrain(terrain);
 	/*Model* cube = resourceManager.Create<Model>("Cube", "Assets/Meshes/cube.obj");
 	cube->Load();
 	Texture* defaultTexture = resourceManager.Create<Texture>("DefaultTexture", "Assets/Textures/Default.png");

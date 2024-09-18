@@ -150,6 +150,7 @@
     <ClInclude Include="Code\include\SceneManager.h" />
     <ClInclude Include="Code\include\Shader.h" />
     <ClInclude Include="Code\include\stb_image.h" />
+    <ClInclude Include="Code\include\Terrain.h" />
     <ClInclude Include="Code\include\Texture.h" />
     <ClInclude Include="Code\include\Vertex.h" />
     <ClInclude Include="Code\include\VertexAttributes.h" />
@@ -181,6 +182,7 @@
     <ClCompile Include="Code\src\Scene.cpp" />
     <ClCompile Include="Code\src\SceneManager.cpp" />
     <ClCompile Include="Code\src\Shader.cpp" />
+    <ClCompile Include="Code\src\Terrain.cpp" />
     <ClCompile Include="Code\src\Texture.cpp" />
     <ClCompile Include="Code\src\VertexAttributes.cpp" />
   </ItemGroup>

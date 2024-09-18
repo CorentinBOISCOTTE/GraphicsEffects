@@ -106,6 +106,15 @@ void Model::Load() {
     myfile.close();
 }
 
+void Model::LoadTerrain(Terrain terrain)
+{
+    modelType = TYPE::TERRAIN;
+    vertices = terrain.vertices;
+    indexBuffer = terrain.indexBuffer;
+    BindBuffers();
+    terrain.Unload();
+}
+
 void Model::BindBuffers()
 {
     buffer.Load();
@@ -150,7 +159,8 @@ void Model::Draw(Camera* camera, Shader* shader, std::vector<Light*> lights, mat
     MODEL.GLMCompatible();
     
     GLuint program = shader->GetProgram(); 
-    texture->Bind();
+    if (modelType != TYPE::TERRAIN)
+        texture->Bind();
     shader->SetUniformMatrix4x4("mvp", MVP);
     shader->SetUniformMatrix4x4("normalMVP", normalMVP);
     shader->SetUniformMatrix4x4("model", MODEL);
@@ -254,6 +264,9 @@ void Model::Draw(Camera* camera, Shader* shader, std::vector<Light*> lights, mat
         break;
     case TYPE::QUADS:
         glDrawElements(GL_QUADS, indexBuffer.size(), GL_UNSIGNED_INT, 0);
+        break;
+    case TYPE::TERRAIN:
+        glDrawElements(GL_TRIANGLE_STRIP, indexBuffer.size(), GL_UNSIGNED_INT, 0);
         break;
     case TYPE::OTHER:
             glDrawElements(GL_POLYGON, indexBuffer.size(), GL_UNSIGNED_INT, 0);
