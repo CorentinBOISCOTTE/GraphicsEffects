@@ -1,0 +1,35 @@
+#pragma once
+#include "glad/glad.h"
+#include <GLFW/glfw3.h>
+
+#include <cstdint>
+
+#include "Debug.h"
+#include "Math/matrice.h"
+#include "ResourceManager.h"
+#include "Model.h"
+#include "Shader.h"
+#include "Camera.h"
+#include "Mesh.h"
+#include "SceneManager.h"
+
+class Application
+{
+public:
+	Application() = default;
+	~Application() = default;
+	void Initialize(uint16_t width, uint16_t height);
+	void Update();
+	ResourceManager resourceManager;
+	SceneManager sceneManager;
+
+private:
+	uint16_t m_width = 0;
+	uint16_t m_height = 0;
+	GLFWwindow* window;
+	void Terminate();
+	void CloseWindowInput();
+	void LoadResources();
+};
+
+void FramebufferSizeCallback(GLFWwindow* window, int width, int height);
