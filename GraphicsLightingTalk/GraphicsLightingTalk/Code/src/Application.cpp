@@ -95,9 +95,9 @@ void Application::LoadResources()
 	defaultTexture->Load();
 	Model* earth = resourceManager.Create<Model>("Earth", "Assets/Meshes/earth.obj");
 	earth->Load();
-	/*Texture* earthTexture = resourceManager.Create<Texture>("EarthTexture", "Assets/Textures/earth.png");
+	Texture* earthTexture = resourceManager.Create<Texture>("EarthTexture", "Assets/Textures/earth.png");
 	earthTexture->Load();
-	Model* moon = resourceManager.Create<Model>("Moon", "Assets/Meshes/moon.obj");
+	/*Model* moon = resourceManager.Create<Model>("Moon", "Assets/Meshes/moon.obj");
 	moon->Load();
 	Texture* moonTexture = resourceManager.Create<Texture>("MoonTexture", "Assets/Textures/moon.png");
 	moonTexture->Load();
