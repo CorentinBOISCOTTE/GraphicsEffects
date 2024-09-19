@@ -136,7 +136,7 @@ void SampleScene(Scene* scene, GLFWwindow* window, ResourceManager* resourceMana
 		scene->lights.push_back(spotLight);
 	}
 
-	scene->sceneGraph.CreateObject("terrain", { 0.f, 0.f, 0.f }, { 0.f, 0.f, 0.f }, { 1.f, 1.f, 1.f }, terrain, grassTexture, material, terrainShader);
+	scene->sceneGraph.CreateObject("terrain", { 0.f, 0.f, 0.f }, { 0.f, 0.f, 0.f }, { 0.1f, 0.1f, 0.1f }, terrain, grassTexture, material, terrainShader);
 	/*scene->sceneGraph.CreateObject("earth", { 0.f, 0.f, -20.f }, { 10.f, 0.f, 0.f }, { 1.f, 1.f, 1.f }, earth, earthTexture, material);
 	scene->sceneGraph.CreateObject("earth1", { 0.f, 0.f, -20.f }, { 0.f, 0.f, 0.f }, { 0.5f, 0.5f, 0.5f }, earth, earthTexture, material);
 	scene->sceneGraph.CreateObject("moon", { 0.f, 0.f, 30.f }, { 0.f, 0.f, 0.f }, { 0.7f, 0.7f, 0.7f }, moon, moonTexture, material, scene->sceneGraph.FindObject("earth1"));

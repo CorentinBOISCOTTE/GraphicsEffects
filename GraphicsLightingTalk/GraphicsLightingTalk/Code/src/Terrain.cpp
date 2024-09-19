@@ -30,12 +30,32 @@ void Terrain::FillBuffers()
 
             Vertex vertex1;
             vertex1.position.x = -height / 2.0f + i;
-            vertex1.position.y = y1 * yScale - yShift;
+            vertex1.position.y = /*y1 * yScale - yShift*/0;
             vertex1.position.z = -width / 2.0f + j;
             
-
             vertices.push_back(vertex1);
-         
+        }
+    }
+
+    for (int i = 0; i < vertices.size(); i++)
+    {
+        if (i < vertices.size() - 2)
+        {
+            Vector3D v1 = vertices[i + 1].position - vertices[i].position;
+            Vector3D v2 = vertices[i + 2].position - vertices[i].position;
+            vertices[i].normal = v1.multiplyVectors(v2) * -1;
+        }
+        else if (i < vertices.size() - 1)
+        {
+            Vector3D v1 = vertices[i + 1].position - vertices[i].position;
+            Vector3D v2 = vertices[i - 1].position - vertices[i].position;
+            vertices[i].normal = v1.multiplyVectors(v2) * -1;
+        }
+        else
+        {
+            Vector3D v1 = vertices[i - 2].position - vertices[i].position;
+            Vector3D v2 = vertices[i - 1].position - vertices[i].position;
+            vertices[i].normal = v1.multiplyVectors(v2) * -1;
         }
     }
 
@@ -43,12 +63,11 @@ void Terrain::FillBuffers()
     {
         for (unsigned int j = 0; j < width; j++)
         {
-            for (unsigned int k = 0; k < 2; k++)
+            for (unsigned int k = 0; k <= 2; k++)
             {
                 indexBuffer.push_back(j + width * (i + k));
             }
         }
     }
-
     stbi_image_free(data);
 }

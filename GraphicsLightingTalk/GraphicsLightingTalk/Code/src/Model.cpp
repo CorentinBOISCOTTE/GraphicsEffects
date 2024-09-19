@@ -160,103 +160,100 @@ void Model::Draw(Camera* camera, Shader* shader, std::vector<Light*> lights, mat
     shader->SetUniformMatrix4x4("mvp", MVP);
     shader->SetUniformMatrix4x4("model", MODEL);
 
-    if (modelType != TYPE::TERRAIN)
+    mat4x4 normalMVP = model;
+    normalMVP.getInverse();
+    normalMVP.TransposeMatrix();
+
+    shader->SetUniformMatrix4x4("normalMVP", normalMVP);
+
+    shader->SetUniformVector3D("viewPos", camera->eye);
+
+    shader->SetUniformColor("material.ambientColor", material->ambientColor);
+    shader->SetUniformColor("material.diffuseColor", material->diffuseColor);
+    shader->SetUniformColor("material.specularColor", material->specularColor);
+    shader->SetUniformFloat("material.shininess", material->shininess);
+
+    //Light
+    int directionalLightCounter = 0;
+    int pointLightCounter = 0;
+    int spotLightCounter = 0;
+    for (int i = 0; i < lights.size(); i++)
     {
-        mat4x4 normalMVP = model;
-        normalMVP.getInverse();
-        normalMVP.TransposeMatrix();
-
-        shader->SetUniformMatrix4x4("normalMVP", normalMVP);
-
-        shader->SetUniformVector3D("viewPos", camera->eye);
-
-        shader->SetUniformColor("material.ambientColor", material->ambientColor);
-        shader->SetUniformColor("material.diffuseColor", material->diffuseColor);
-        shader->SetUniformColor("material.specularColor", material->specularColor);
-        shader->SetUniformFloat("material.shininess", material->shininess);
-
-        //Light
-        int directionalLightCounter = 0;
-        int pointLightCounter = 0;
-        int spotLightCounter = 0;
-        for (int i = 0; i < lights.size(); i++)
+        if (lights[i]->lightType == Light::LightType::Directional)
         {
-            if (lights[i]->lightType == Light::LightType::Directional)
-            {
-                DirectionalLight* directionalLight = dynamic_cast<DirectionalLight*>(lights[i]);
+            DirectionalLight* directionalLight = dynamic_cast<DirectionalLight*>(lights[i]);
 
-                shader->SetUniformColor("directionalLight.ambientColor", directionalLight->ambiantColor);
-                shader->SetUniformColor("directionalLight.diffuseColor", directionalLight->diffuseColor);
-                shader->SetUniformColor("directionalLight.specularColor", directionalLight->specularColor);
-                shader->SetUniformVector3D("directionalLight.direction", directionalLight->direction);
-                shader->SetUniformFloat("directionalLight.intensity", directionalLight->intensity);
-                directionalLightCounter++;
-            }
-            else if (lights[i]->lightType == Light::LightType::Point)
-            {
-                PointLight* pointLight = dynamic_cast<PointLight*>(lights[i]);
-                std::string ambiant = (std::ostringstream() << "pointLights[" << pointLightCounter << "].ambientColor").str();
-                std::string diffuse = (std::ostringstream() << "pointLights[" << pointLightCounter << "].diffuseColor").str();
-                std::string specular = (std::ostringstream() << "pointLights[" << pointLightCounter << "].specularColor").str();
-                std::string position = (std::ostringstream() << "pointLights[" << pointLightCounter << "].position").str();
-
-                std::string constant = (std::ostringstream() << "pointLights[" << pointLightCounter << "].constant").str();
-                std::string linear = (std::ostringstream() << "pointLights[" << pointLightCounter << "].linear").str();
-                std::string quadratic = (std::ostringstream() << "pointLights[" << pointLightCounter << "].quadratic").str();
-
-                std::string intensity = (std::ostringstream() << "pointLights[" << pointLightCounter << "].intensity").str();
-
-                shader->SetUniformColor(ambiant, pointLight->ambiantColor);
-                shader->SetUniformColor(diffuse, pointLight->diffuseColor);
-                shader->SetUniformColor(specular, pointLight->specularColor);
-                shader->SetUniformVector3D(position, pointLight->position);
-                shader->SetUniformColor(ambiant, pointLight->ambiantColor);
-                shader->SetUniformFloat(constant, pointLight->constantValue);
-                shader->SetUniformFloat(linear, pointLight->linearValue);
-                shader->SetUniformFloat(quadratic, pointLight->quadraticValue);
-                shader->SetUniformFloat(intensity, pointLight->intensity);
-                pointLightCounter++;
-            }
-            else if (lights[i]->lightType == Light::LightType::Spot)
-            {
-                SpotLight* spotLight = dynamic_cast<SpotLight*>(lights[i]);
-                std::string ambiant = (std::ostringstream() << "spotLights[" << spotLightCounter << "].ambientColor").str();
-                std::string diffuse = (std::ostringstream() << "spotLights[" << spotLightCounter << "].diffuseColor").str();
-                std::string specular = (std::ostringstream() << "spotLights[" << spotLightCounter << "].specularColor").str();
-                std::string position = (std::ostringstream() << "spotLights[" << spotLightCounter << "].position").str();
-                std::string direction = (std::ostringstream() << "spotLights[" << spotLightCounter << "].direction").str();
-
-                std::string spotCosAngleName = (std::ostringstream() << "spotLights[" << spotLightCounter << "].spotCosAngle").str();
-                std::string spotCosSmoothAngleName = (std::ostringstream() << "spotLights[" << spotLightCounter << "].spotCosSmoothAngle").str();
-
-                std::string constant = (std::ostringstream() << "spotLights[" << spotLightCounter << "].constant").str();
-                std::string linear = (std::ostringstream() << "spotLights[" << spotLightCounter << "].linear").str();
-                std::string quadratic = (std::ostringstream() << "spotLights[" << spotLightCounter << "].quadratic").str();
-                std::string intensity = (std::ostringstream() << "spotLights[" << spotLightCounter << "].intensity").str();
-
-                shader->SetUniformColor(ambiant, spotLight->ambiantColor);
-                shader->SetUniformColor(diffuse, spotLight->diffuseColor);
-                shader->SetUniformColor(specular, spotLight->specularColor);
-                shader->SetUniformVector3D(position, spotLight->position);
-                shader->SetUniformVector3D(direction, spotLight->direction);
-
-                float spotCosAngle = cosf(spotLight->spotAngle * M_PI / 180.0f);
-                float spotCosSmoothValue = cosf((spotLight->spotAngle - spotLight->spotAngle * spotLight->spotSmoothValue) * M_PI / 180.0f);
-                shader->SetUniformFloat(spotCosAngleName, spotCosAngle);
-                shader->SetUniformFloat(spotCosSmoothAngleName, spotCosSmoothValue);
-
-                shader->SetUniformFloat(constant, spotLight->constantValue);
-                shader->SetUniformFloat(linear, spotLight->linearValue);
-                shader->SetUniformFloat(quadratic, spotLight->quadraticValue);
-                shader->SetUniformFloat(intensity, spotLight->intensity);
-
-                spotLightCounter++;
-            }
+            shader->SetUniformColor("directionalLight.ambientColor", directionalLight->ambiantColor);
+            shader->SetUniformColor("directionalLight.diffuseColor", directionalLight->diffuseColor);
+            shader->SetUniformColor("directionalLight.specularColor", directionalLight->specularColor);
+            shader->SetUniformVector3D("directionalLight.direction", directionalLight->direction);
+            shader->SetUniformFloat("directionalLight.intensity", directionalLight->intensity);
+            directionalLightCounter++;
         }
-        shader->SetUniformInt("pointLightCount", pointLightCounter);
-        shader->SetUniformInt("spotLightCount", spotLightCounter);
-        shader->SetUniformColor("globalAmbiantColor", LightingSettings::globalAmbiantColor);
+        else if (lights[i]->lightType == Light::LightType::Point)
+        {
+            PointLight* pointLight = dynamic_cast<PointLight*>(lights[i]);
+            std::string ambiant = (std::ostringstream() << "pointLights[" << pointLightCounter << "].ambientColor").str();
+            std::string diffuse = (std::ostringstream() << "pointLights[" << pointLightCounter << "].diffuseColor").str();
+            std::string specular = (std::ostringstream() << "pointLights[" << pointLightCounter << "].specularColor").str();
+            std::string position = (std::ostringstream() << "pointLights[" << pointLightCounter << "].position").str();
+
+            std::string constant = (std::ostringstream() << "pointLights[" << pointLightCounter << "].constant").str();
+            std::string linear = (std::ostringstream() << "pointLights[" << pointLightCounter << "].linear").str();
+            std::string quadratic = (std::ostringstream() << "pointLights[" << pointLightCounter << "].quadratic").str();
+
+            std::string intensity = (std::ostringstream() << "pointLights[" << pointLightCounter << "].intensity").str();
+
+            shader->SetUniformColor(ambiant, pointLight->ambiantColor);
+            shader->SetUniformColor(diffuse, pointLight->diffuseColor);
+            shader->SetUniformColor(specular, pointLight->specularColor);
+            shader->SetUniformVector3D(position, pointLight->position);
+            shader->SetUniformColor(ambiant, pointLight->ambiantColor);
+            shader->SetUniformFloat(constant, pointLight->constantValue);
+            shader->SetUniformFloat(linear, pointLight->linearValue);
+            shader->SetUniformFloat(quadratic, pointLight->quadraticValue);
+            shader->SetUniformFloat(intensity, pointLight->intensity);
+            pointLightCounter++;
+        }
+        else if (lights[i]->lightType == Light::LightType::Spot)
+        {
+            SpotLight* spotLight = dynamic_cast<SpotLight*>(lights[i]);
+            std::string ambiant = (std::ostringstream() << "spotLights[" << spotLightCounter << "].ambientColor").str();
+            std::string diffuse = (std::ostringstream() << "spotLights[" << spotLightCounter << "].diffuseColor").str();
+            std::string specular = (std::ostringstream() << "spotLights[" << spotLightCounter << "].specularColor").str();
+            std::string position = (std::ostringstream() << "spotLights[" << spotLightCounter << "].position").str();
+            std::string direction = (std::ostringstream() << "spotLights[" << spotLightCounter << "].direction").str();
+
+            std::string spotCosAngleName = (std::ostringstream() << "spotLights[" << spotLightCounter << "].spotCosAngle").str();
+            std::string spotCosSmoothAngleName = (std::ostringstream() << "spotLights[" << spotLightCounter << "].spotCosSmoothAngle").str();
+
+            std::string constant = (std::ostringstream() << "spotLights[" << spotLightCounter << "].constant").str();
+            std::string linear = (std::ostringstream() << "spotLights[" << spotLightCounter << "].linear").str();
+            std::string quadratic = (std::ostringstream() << "spotLights[" << spotLightCounter << "].quadratic").str();
+            std::string intensity = (std::ostringstream() << "spotLights[" << spotLightCounter << "].intensity").str();
+
+            shader->SetUniformColor(ambiant, spotLight->ambiantColor);
+            shader->SetUniformColor(diffuse, spotLight->diffuseColor);
+            shader->SetUniformColor(specular, spotLight->specularColor);
+            shader->SetUniformVector3D(position, spotLight->position);
+            shader->SetUniformVector3D(direction, spotLight->direction);
+
+            float spotCosAngle = cosf(spotLight->spotAngle * M_PI / 180.0f);
+            float spotCosSmoothValue = cosf((spotLight->spotAngle - spotLight->spotAngle * spotLight->spotSmoothValue) * M_PI / 180.0f);
+            shader->SetUniformFloat(spotCosAngleName, spotCosAngle);
+            shader->SetUniformFloat(spotCosSmoothAngleName, spotCosSmoothValue);
+
+            shader->SetUniformFloat(constant, spotLight->constantValue);
+            shader->SetUniformFloat(linear, spotLight->linearValue);
+            shader->SetUniformFloat(quadratic, spotLight->quadraticValue);
+            shader->SetUniformFloat(intensity, spotLight->intensity);
+
+            spotLightCounter++;
+        }
     }
+    shader->SetUniformInt("pointLightCount", pointLightCounter);
+    shader->SetUniformInt("spotLightCount", spotLightCounter);
+    shader->SetUniformColor("globalAmbiantColor", LightingSettings::globalAmbiantColor);
 
     shader->UseShader();
     
