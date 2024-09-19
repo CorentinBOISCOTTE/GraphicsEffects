@@ -1,8 +1,9 @@
 #include "Object.h"
 
-Object::Object(Vector3D position, Vector3D rotation, Vector3D scale, Model* model, Texture* texture, Material* material, Object* parent)
+Object::Object(Vector3D position, Vector3D rotation, Vector3D scale, Model* model, Texture* texture, Material* material, Shader* shader, Object* parent)
 {
 	this->parent = parent;
+	this->shader = shader;
 	this->model = model;
 	this->texture = texture;
 	this->model = model;
@@ -52,9 +53,9 @@ void Object::Update(Camera* camera)
 		child->Update(camera);
 }
 
-void Object::Draw(Camera* camera, Shader* shader, std::vector<Light*> lights)
+void Object::Draw(Camera* camera, std::vector<Light*> lights)
 {
 	mesh.Draw(camera, shader, lights, material);
 	for (Object* child : children)
-		child->Draw(camera, shader, lights);
+		child->Draw(camera, lights);
 }

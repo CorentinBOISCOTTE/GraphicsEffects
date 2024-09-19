@@ -6,7 +6,7 @@
 class Object
 {
 public:
-	Object(Vector3D position, Vector3D rotation, Vector3D scale, Model* model, Texture* texture, Material* material, Object* parent = nullptr);
+	Object(Vector3D position, Vector3D rotation, Vector3D scale, Model* model, Texture* texture, Material* material, Shader* shader, Object* parent = nullptr);
 
 	Object* parent;
 	std::vector<Object*> children;
@@ -17,10 +17,11 @@ public:
 	Texture* texture;
 	Model* model;
 	Material* material; 
+	Shader* shader;
 	Mesh mesh;
 
 	void Update(Camera* camera);
-	void Draw(Camera* camera, Shader* shader, std::vector<Light*> lights);
+	void Draw(Camera* camera, std::vector<Light*> lights);
 	void Translate(Vector3D translate) { position += translate; }
 	void Rotate(Vector3D rotate) { rotation += rotate; }
 	void Scale(Vector3D _scale) { scale *= _scale; }

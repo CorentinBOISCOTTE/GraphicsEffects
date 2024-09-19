@@ -60,15 +60,17 @@ void SampleScene(Scene* scene, GLFWwindow* window, ResourceManager* resourceMana
 {
 	int width, height;
 	glfwGetFramebufferSize(window, &width, &height);
-	Camera camera(width, height, 45.f, 4.5f, -4.5f, 8.f, -8.f, 0.1f, 100.f, true, true);
+	Camera camera(width, height, 45.f, 4.5f, -4.5f, 8.f, -8.f, 0.1f, 10000.f, true, true);
 	scene->camera = camera;
 	Shader* shader = resourceManager->Get<Shader>("Shader");
 	scene->shader = shader;
+	Shader* terrainShader = resourceManager->Get<Shader>("TerrainShader");
 
 	//Create Object/Texture
 	Model* terrain = resourceManager->Get<Model>("Terrain");
-	Texture* earthTexture = resourceManager->Get<Texture>("EarthTexture");
+	Texture* grassTexture = resourceManager->Get<Texture>("Grass");
 	/*Model* cube = resourceManager->Get<Model>("Cube");
+	Texture* earthTexture = resourceManager->Get<Texture>("EarthTexture");
 	Model* earth = resourceManager->Get<Model>("Earth");
 	Model* moon = resourceManager->Get<Model>("Moon");
 	Model* satellite = resourceManager->Get<Model>("Satellite");
@@ -78,13 +80,13 @@ void SampleScene(Scene* scene, GLFWwindow* window, ResourceManager* resourceMana
 	Texture* rocketTexture = resourceManager->Get<Texture>("RocketTexture");
 	Texture* defaultTexture = resourceManager->Get<Texture>("DefaultTexture");*/
 
-	Material* material = new Material(Vector4D(1, 0.2, 0.2, 1), Vector4D(1.0f, 0.0f, 0.0f, 1), Vector4D(1, 0, 0, 1));
+	Material* material = new Material(Vector4D(1, 1, 1, 1), Vector4D(1.0f, 1.0f, 1.0f, 1), Vector4D(1, 1, 1, 1));
 	scene->materials.push_back(material);
 
 	//Light
 	LightingSettings::globalAmbiantColor = Vector4D(0, 0, 0, 1.0f);
-	bool enableDirectionalLight = false;
-	bool enablePointLight = true;
+	bool enableDirectionalLight = true;
+	bool enablePointLight = false;
 	bool enableSpotLight = false;
 
 	//Initialise Directional Light
@@ -93,7 +95,7 @@ void SampleScene(Scene* scene, GLFWwindow* window, ResourceManager* resourceMana
 	if (enableDirectionalLight)
 	{
 		directionalLight = new DirectionalLight();
-		directionalLight->direction = Vector3D(0, -0.5, -1);
+		directionalLight->direction = Vector3D(0, -0.5, 1);
 		directionalLight->ambiantColor = Vector4D(0, 0, 0, 1.0f);
 		directionalLight->diffuseColor = Vector4D(0.6f, 0.6f, 0.6f, 1.0f);
 		directionalLight->specularColor = Vector4D(0.8f, 0.8f, 0.8f, 1.0f);
@@ -134,7 +136,7 @@ void SampleScene(Scene* scene, GLFWwindow* window, ResourceManager* resourceMana
 		scene->lights.push_back(spotLight);
 	}
 
-	scene->sceneGraph.CreateObject("terrain", { 0.f, 0.f, 0.f }, { 0.f, 0.f, 0.f }, { 1.f, 1.f, 1.f }, terrain, earthTexture, material);
+	scene->sceneGraph.CreateObject("terrain", { 0.f, 0.f, 0.f }, { 0.f, 0.f, 0.f }, { 1.f, 1.f, 1.f }, terrain, grassTexture, material, terrainShader);
 	/*scene->sceneGraph.CreateObject("earth", { 0.f, 0.f, -20.f }, { 10.f, 0.f, 0.f }, { 1.f, 1.f, 1.f }, earth, earthTexture, material);
 	scene->sceneGraph.CreateObject("earth1", { 0.f, 0.f, -20.f }, { 0.f, 0.f, 0.f }, { 0.5f, 0.5f, 0.5f }, earth, earthTexture, material);
 	scene->sceneGraph.CreateObject("moon", { 0.f, 0.f, 30.f }, { 0.f, 0.f, 0.f }, { 0.7f, 0.7f, 0.7f }, moon, moonTexture, material, scene->sceneGraph.FindObject("earth1"));

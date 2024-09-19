@@ -44,15 +44,15 @@ void Application::Update()
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_SCISSOR_TEST);
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
+	/*glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);*/
 	
 	while (!glfwWindowShouldClose(window))
 	{
 		MyTime::Get().UpdateDeltaTime();
 		CloseWindowInput();
 
-		glClearColor(1.f, 1.f, 1.f, 1.f);
+		glClearColor(0.53f, 0.81f, 0.92f, 1.f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		sceneManager.currentScene->camera.Input(MyTime::Get().DeltaTime(), window);
@@ -89,10 +89,16 @@ void Application::LoadResources()
 	shader->SetVertexShader("Assets/Shaders/VertexShader.glsl");
 	shader->SetFragmentShader("Assets/Shaders/FragmentShader.glsl");
 	shader->Link();
+	Shader* terrainShader = resourceManager.Create<Shader>("TerrainShader");
+	terrainShader->SetVertexShader("Assets/Shaders/TerrainVertex.glsl");
+	terrainShader->SetFragmentShader("Assets/Shaders/TerrainFragment.glsl");
+	terrainShader->Link();
 	Terrain terrain;
-	terrain.Load("Assets/Textures/iceland_heightmap.png");
+	terrain.Load("Assets/Textures/téléchargement.png");
 	Model* map = resourceManager.Create<Model>("Terrain");
 	map->LoadTerrain(terrain);
+	Texture* grassTexture = resourceManager.Create<Texture>("Grass", "Assets/Textures/Terrain/grass.jpg");
+	grassTexture->Load();
 	/*Model* cube = resourceManager.Create<Model>("Cube", "Assets/Meshes/cube.obj");
 	cube->Load();
 	Texture* defaultTexture = resourceManager.Create<Texture>("DefaultTexture", "Assets/Textures/Default.png");

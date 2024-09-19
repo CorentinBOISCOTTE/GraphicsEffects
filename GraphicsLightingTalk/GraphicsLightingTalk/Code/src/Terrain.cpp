@@ -21,31 +21,21 @@ void Terrain::Unload()
 void Terrain::FillBuffers()
 {
     float yScale = 64.0f / 256.0f, yShift = 16.0f;
-    for (unsigned int i = 0; i < height; i += 3)
+    for (unsigned int i = 0; i < height; i++)
     {
-        for (unsigned int j = 0; j < width; j += 3)
+        for (unsigned int j = 0; j < width; j++)
         {
-            unsigned char* texel = data + (j + width * i) * channels;
-            unsigned char y = texel[0];
+            unsigned char* texel1 = data + (j + width * i) * channels;
+            unsigned char y1 = texel1[0];
 
             Vertex vertex1;
-            Vertex vertex2;
-            Vertex vertex3;
             vertex1.position.x = -height / 2.0f + i;
-            vertex1.position.y = y * yScale - yShift;
+            vertex1.position.y = y1 * yScale - yShift;
             vertex1.position.z = -width / 2.0f + j;
-
-            vertex2.position.x = -height / 2.0f + i;
-            vertex2.position.y = y * yScale - yShift;
-            vertex2.position.z = -width / 2.0f + j;
-
-            vertex3.position.x = -height / 2.0f + i;
-            vertex3.position.y = y * yScale - yShift;
-            vertex3.position.z = -width / 2.0f + j;
+            
 
             vertices.push_back(vertex1);
-            vertices.push_back(vertex2);
-            vertices.push_back(vertex3);
+         
         }
     }
 

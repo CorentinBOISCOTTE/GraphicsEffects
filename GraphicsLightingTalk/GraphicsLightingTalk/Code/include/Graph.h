@@ -9,7 +9,7 @@ class Graph
 public:
 	Graph() = default;
 	~Graph() = default;
-	void CreateObject(std::string id, Vector3D position, Vector3D rotation, Vector3D scale, Model* model, Texture* texture, Material* material, Object* parent = nullptr);
+	void CreateObject(std::string id, Vector3D position, Vector3D rotation, Vector3D scale, Model* model, Texture* texture, Material* material, Shader* shader, Object* parent = nullptr);
 	void RemoveObject(std::string id);
 	void SetParent(std::string childID, std::string parentID);
 	void RemoveParent(std::string id);
@@ -26,14 +26,14 @@ public:
 };
 
 template<typename T>
-inline void Graph<T>::CreateObject(std::string id, Vector3D position, Vector3D rotation, Vector3D scale, Model* model, Texture* texture, Material* material,  Object* parent)
+inline void Graph<T>::CreateObject(std::string id, Vector3D position, Vector3D rotation, Vector3D scale, Model* model, Texture* texture, Material* material, Shader* shader, Object* parent)
 {
 	if (ObjectExists(id))
 	{
 		std::cout << "Error, already existing object with ID : " << id << std::endl;
 		return;
 	}
-	Object* object = new Object(position, rotation, scale, model, texture, material, parent);
+	Object* object = new Object(position, rotation, scale, model, texture, material, shader, parent);
 	objects[id] = object;
 	if (!parent)
 		root[id] = object;
@@ -54,7 +54,7 @@ template<typename T>
 void Graph<T>::Draw(std::vector<Light*> lights)
 {
 	for (std::pair<std::string, Object*> o : root)
-		o.second->Draw(camera, shader, lights);
+		o.second->Draw(camera, lights);
 }
 
 template<typename T>
