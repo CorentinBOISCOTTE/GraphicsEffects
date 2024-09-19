@@ -44,8 +44,8 @@ void Application::Update()
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_SCISSOR_TEST);
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
+	/*glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);*/
 	
 	while (!glfwWindowShouldClose(window))
 	{
@@ -89,13 +89,13 @@ void Application::LoadResources()
 	shader->SetVertexShader("Assets/Shaders/VertexShader.glsl");
 	shader->SetFragmentShader("Assets/Shaders/FragmentShader.glsl");
 	shader->Link();
-	/*Model* cube = resourceManager.Create<Model>("Cube", "Assets/Meshes/cube.obj");
+	Model* cube = resourceManager.Create<Model>("Cube", "Assets/Meshes/cube.obj");
 	cube->Load();
 	Texture* defaultTexture = resourceManager.Create<Texture>("DefaultTexture", "Assets/Textures/Default.png");
 	defaultTexture->Load();
 	Model* earth = resourceManager.Create<Model>("Earth", "Assets/Meshes/earth.obj");
 	earth->Load();
-	Texture* earthTexture = resourceManager.Create<Texture>("EarthTexture", "Assets/Textures/earth.png");
+	/*Texture* earthTexture = resourceManager.Create<Texture>("EarthTexture", "Assets/Textures/earth.png");
 	earthTexture->Load();
 	Model* moon = resourceManager.Create<Model>("Moon", "Assets/Meshes/moon.obj");
 	moon->Load();
@@ -109,6 +109,8 @@ void Application::LoadResources()
 	rocket->Load();
 	Texture* rocketTexture = resourceManager.Create<Texture>("RocketTexture", "Assets/Textures/Rocket.jpg");
 	rocketTexture->Load();*/
+	Texture* Skybox = resourceManager.Create<Texture>("Skybox", "Assets/Textures/Skybox.png");
+	Skybox->Load();
 }
 
 void FramebufferSizeCallback(GLFWwindow* window, int width, int height)

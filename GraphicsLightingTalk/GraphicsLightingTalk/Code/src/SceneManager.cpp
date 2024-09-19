@@ -60,15 +60,15 @@ void SampleScene(Scene* scene, GLFWwindow* window, ResourceManager* resourceMana
 {
 	int width, height;
 	glfwGetFramebufferSize(window, &width, &height);
-	Camera camera(width, height, 45.f, 4.5f, -4.5f, 8.f, -8.f, 0.1f, 100.f, true, true);
+	Camera camera(width, height, 45.f, 4.5f, -4.5f, 8.f, -8.f, 0.1f, 10000.f, true, true);
 	scene->camera = camera;
 	Shader* shader = resourceManager->Get<Shader>("Shader");
 	scene->shader = shader;
 
 	//Create Object/Texture
-	/*Model* cube = resourceManager->Get<Model>("Cube");
+	Model* cube = resourceManager->Get<Model>("Cube");
 	Model* earth = resourceManager->Get<Model>("Earth");
-	Model* moon = resourceManager->Get<Model>("Moon");
+	/*Model* moon = resourceManager->Get<Model>("Moon");
 	Model* satellite = resourceManager->Get<Model>("Satellite");
 	Model* rocket = resourceManager->Get<Model>("Rocket");
 	Texture* earthTexture = resourceManager->Get<Texture>("EarthTexture");
@@ -76,6 +76,9 @@ void SampleScene(Scene* scene, GLFWwindow* window, ResourceManager* resourceMana
 	Texture* satelliteTexture = resourceManager->Get<Texture>("SatelliteTexture");
 	Texture* rocketTexture = resourceManager->Get<Texture>("RocketTexture");
 	Texture* defaultTexture = resourceManager->Get<Texture>("DefaultTexture");*/
+	Texture* Skybox = resourceManager->Get<Texture>("Skybox");
+
+
 
 	Material* material = new Material(Vector4D(1, 1, 1, 1), Vector4D(1.0f, 1.0f, 1.0f, 1), Vector4D(1, 1, 1, 1));
 	scene->materials.push_back(material);
@@ -92,7 +95,7 @@ void SampleScene(Scene* scene, GLFWwindow* window, ResourceManager* resourceMana
 	if (enableDirectionalLight)
 	{
 		directionalLight = new DirectionalLight();
-		directionalLight->direction = Vector3D(0, -0.5, -1);
+		directionalLight->direction = Vector3D(0, -0.5, 1);
 		directionalLight->ambiantColor = Vector4D(0, 0, 0, 1.0f);
 		directionalLight->diffuseColor = Vector4D(0.6f, 0.6f, 0.6f, 1.0f);
 		directionalLight->specularColor = Vector4D(0.8f, 0.8f, 0.8f, 1.0f);
@@ -101,14 +104,14 @@ void SampleScene(Scene* scene, GLFWwindow* window, ResourceManager* resourceMana
 	}
 
 	//Initialise Point Light
-	PointLight* pointLight = nullptr;
+		PointLight* pointLight = nullptr;
 	if (enablePointLight)
 	{
 		pointLight = new PointLight();
-		pointLight->position = Vector3D(0, 40, 90);
+		pointLight->position = Vector3D(0, 0, 0);
 		pointLight->specularColor = Vector4D(0.8f, 0.8f, 0.8f, 1.0f);
 		pointLight->linearValue = 0.09f;
-		pointLight->intensity = 500.0f;
+		pointLight->intensity = 5000.0f;
 		pointLight->quadraticValue = 0.032f;
 		scene->lights.push_back(pointLight);
 
@@ -139,6 +142,8 @@ void SampleScene(Scene* scene, GLFWwindow* window, ResourceManager* resourceMana
 	scene->sceneGraph.CreateObject("moon1", { 0.f, 0.f, 30.f }, { 0.f, 0.f, 0.f }, { 0.6f, 0.6f, 0.6f }, moon, moonTexture, material, scene->sceneGraph.FindObject("earth1"));
 	scene->sceneGraph.CreateObject("satellite", { 0.f, 0.f, 5.f }, { 0.f, 0.f, 0.f }, { 0.001f, 0.001f, 0.001f }, satellite, satelliteTexture, material, scene->sceneGraph.FindObject("earth"));
 	scene->sceneGraph.CreateObject("rocket", { 3.f, 0.f, 0.f }, { 90.f, 0.f, 0.f }, { 0.006f, 0.006f, 0.006f }, rocket, rocketTexture, material, scene->sceneGraph.FindObject("moon1"));*/
+	scene->sceneGraph.CreateObject("Skybox", { 0.f, 0.f, 0.f }, { 0.f, 0.f, 0.f }, { 100.f, 100.f, 100.f }, earth, Skybox, material);
+
 }
 
 void UpdateSampleScene(Scene* scene, GLFWwindow* window, ResourceManager* resourceManager)

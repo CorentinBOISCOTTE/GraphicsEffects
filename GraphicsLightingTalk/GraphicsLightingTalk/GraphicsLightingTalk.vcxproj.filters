@@ -81,6 +81,9 @@
     <ClInclude Include="Code\include\VertexAttributes.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="Code\include\Skybox.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\src\Math\mat2x2.cpp">
@@ -165,6 +168,9 @@
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="..\libs\glad\src\glad.c">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\src\Skybox.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>

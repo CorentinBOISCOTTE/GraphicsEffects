@@ -12,6 +12,7 @@
 #include "Camera.h"
 #include "Mesh.h"
 #include "SceneManager.h"
+#include "Skybox.h"
 
 class Application
 {
