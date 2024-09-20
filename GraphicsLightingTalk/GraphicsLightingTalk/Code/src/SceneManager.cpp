@@ -80,7 +80,7 @@ void SampleScene(Scene* scene, GLFWwindow* window, ResourceManager* resourceMana
 	Texture* rocketTexture = resourceManager->Get<Texture>("RocketTexture");
 	Texture* defaultTexture = resourceManager->Get<Texture>("DefaultTexture");*/
 
-	Material* material = new Material(Vector4D(1, 1, 1, 1), Vector4D(1.0f, 1.0f, 1.0f, 1), Vector4D(1, 1, 1, 1));
+	Material* material = new Material(Vector4D(1, 1, 1, 1), Vector4D(1.0f, 1.0f, 1.0f, 1), Vector4D(0.1, 0.1, 0.1, 1));
 	scene->materials.push_back(material);
 
 	//Light
@@ -95,11 +95,11 @@ void SampleScene(Scene* scene, GLFWwindow* window, ResourceManager* resourceMana
 	if (enableDirectionalLight)
 	{
 		directionalLight = new DirectionalLight();
-		directionalLight->direction = Vector3D(0, -0.5, 1);
+		directionalLight->direction = Vector3D(0, 0.5, 1);
 		directionalLight->ambiantColor = Vector4D(0, 0, 0, 1.0f);
 		directionalLight->diffuseColor = Vector4D(0.6f, 0.6f, 0.6f, 1.0f);
 		directionalLight->specularColor = Vector4D(0.8f, 0.8f, 0.8f, 1.0f);
-		directionalLight->intensity = 3.0f;
+		directionalLight->intensity = 0.9f;
 		scene->lights.push_back(directionalLight);
 	}
 

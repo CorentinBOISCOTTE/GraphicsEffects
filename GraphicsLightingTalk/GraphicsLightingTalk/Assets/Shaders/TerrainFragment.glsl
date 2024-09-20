@@ -174,11 +174,11 @@ void main()
 	}
 	else if (fs_in.worldPos.y > -12)
 	{
-		tempColor = vec4(0.07, 0.49, 0.07, 1);
+		tempColor = vec4(1, 0.9, 0.6, 1);
 	}
 	else if (fs_in.worldPos.y > -15)
 	{
-		tempColor = vec4(1, 0.9, 0.6, 1);
+		tempColor = vec4(0.07, 0.49, 0.07, 1);
 	}
 	else
 	{
