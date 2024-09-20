@@ -39,14 +39,22 @@ void Terrain::FillBuffers()
         }
     }
 
-    for (unsigned int i = 0; i < height - 1; i++)
+    for (unsigned int i = 0; i < height - 1; i++) 
     {
-        for (unsigned int j = 0; j < width; j++)
+        for (unsigned int j = 0; j < width - 1; j++) 
         {
-            for (unsigned int k = 0; k < 2; k++)
-            {
-                indexBuffer.push_back(j + width * (i + k));
-            }
+            unsigned int topLeft = i * width + j;
+            unsigned int topRight = i * width + (j + 1);
+            unsigned int bottomLeft = (i + 1) * width + j;
+            unsigned int bottomRight = (i + 1) * width + (j + 1);
+
+            indexBuffer.push_back(topLeft);
+            indexBuffer.push_back(bottomLeft);
+            indexBuffer.push_back(topRight);
+
+            indexBuffer.push_back(topRight);
+            indexBuffer.push_back(bottomLeft);
+            indexBuffer.push_back(bottomRight);
         }
     }
 

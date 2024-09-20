@@ -44,6 +44,8 @@ void Application::Update()
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_SCISSOR_TEST);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	/*glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);*/
 	
@@ -94,7 +96,7 @@ void Application::LoadResources()
 	terrainShader->SetFragmentShader("Assets/Shaders/TerrainFragment.glsl");
 	terrainShader->Link();
 	Terrain terrain;
-	terrain.Load("Assets/Textures/téléchargement.png");
+	terrain.Load("Assets/Textures/iceland_heightmap.png");
 	Model* map = resourceManager.Create<Model>("Terrain");
 	map->LoadTerrain(terrain);
 	Texture* grassTexture = resourceManager.Create<Texture>("Grass", "Assets/Textures/Terrain/grass.jpg");

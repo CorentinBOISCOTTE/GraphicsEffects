@@ -270,11 +270,11 @@ void Model::Draw(Camera* camera, Shader* shader, std::vector<Light*> lights, mat
         glDrawElements(GL_QUADS, indexBuffer.size(), GL_UNSIGNED_INT, 0);
         break;
     case TYPE::TERRAIN:
-        glDrawElements(GL_TRIANGLE_STRIP, indexBuffer.size(), GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, indexBuffer.size(), GL_UNSIGNED_INT, 0);
         break;
     case TYPE::OTHER:
-            glDrawElements(GL_POLYGON, indexBuffer.size(), GL_UNSIGNED_INT, 0);
-            break;
+        glDrawElements(GL_POLYGON, indexBuffer.size(), GL_UNSIGNED_INT, 0);
+        break;
     default:
         glDrawElements(GL_POLYGON, indexBuffer.size(), GL_UNSIGNED_INT, 0);
         break;
