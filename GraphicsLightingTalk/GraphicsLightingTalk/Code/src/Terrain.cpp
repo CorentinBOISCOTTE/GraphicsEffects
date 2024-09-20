@@ -25,17 +25,15 @@ void Terrain::FillBuffers()
     {
         for (unsigned int j = 0; j < width; j++)
         {
-            unsigned char* texel1 = data + (j + width * i) * channels;
-            unsigned char y1 = texel1[0];
+            unsigned char* texel = data + (j + width * i) * channels;
+            unsigned char y = texel[0];
 
-            Vertex vertex1;
-            vertex1.position.x = -height / 2.0f + i;
-            vertex1.position.y = y1 * yScale - yShift;
-            vertex1.position.z = -width / 2.0f + j;
+            Vertex vertex;
+            vertex.position.x = -height / 2.0f + i;
+            vertex.position.y = y * yScale - yShift;
+            vertex.position.z = -width / 2.0f + j;
             
-
-            vertices.push_back(vertex1);
-         
+            vertices.push_back(vertex);
         }
     }
 
@@ -57,6 +55,5 @@ void Terrain::FillBuffers()
             indexBuffer.push_back(bottomRight);
         }
     }
-
     stbi_image_free(data);
 }
