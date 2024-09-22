@@ -176,10 +176,14 @@ void main()
 	{
 		tempColor = vec4(0.07, 0.49, 0.07, 1);
 	}
-	else
+	else if (fs_in.worldPos.y > -15)
 	{
 		tempColor = vec4(1, 0.9, 0.6, 1);
 	}
+    else
+    {
+        tempColor = vec4(0, 0, 1, 1);
+    }
 
     vec4 ambientColor = globalAmbiantColor; 
     vec3 color = vec3(ambientColor.r, ambientColor.g, ambientColor.b);
