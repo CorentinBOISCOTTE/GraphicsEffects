@@ -11,15 +11,15 @@
 
 class Skybox {
 public:
-    Skybox();
+    Skybox(std::vector<std::string> faces);
+
+    void Draw(Shader& shader, const mat4x4& view, const mat4x4& projection);
+
     ~Skybox();
-    void Render(const mat4x4& projectionMatrix, const mat4x4& viewMatrix);
 
 private:
-    void InitSkybox();
+    unsigned int VAO, VBO;
     unsigned int cubemapTexture;
-    unsigned int skyboxVAO, skyboxVBO, skyboxEBO;
-    unsigned int skyboxShader;
 
     unsigned int LoadCubemap(std::vector<std::string> faces);
 };
