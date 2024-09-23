@@ -175,6 +175,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Shaders\SkyboxFagment.glsl" />
+    <None Include="Assets\Shaders\FragmentShader.glsl" />
+    <None Include="Assets\Shaders\SkyboxVertex.glsl" />
+    <None Include="Assets\Shaders\VertexShader.glsl" />
+    <None Include="Assets\Shaders\SkyboxFragment.glsl" />
   </ItemGroup>
 </Project>

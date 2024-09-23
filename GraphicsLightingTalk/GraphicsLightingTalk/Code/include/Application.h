@@ -21,6 +21,7 @@ public:
 	~Application() = default;
 	void Initialize(uint16_t width, uint16_t height);
 	void Update();
+	void RenderSkybox();
 	ResourceManager resourceManager;
 	SceneManager sceneManager;
 
@@ -31,6 +32,7 @@ private:
 	void Terminate();
 	void CloseWindowInput();
 	void LoadResources();
+	Skybox* skybox;
 };
 
 void FramebufferSizeCallback(GLFWwindow* window, int width, int height);

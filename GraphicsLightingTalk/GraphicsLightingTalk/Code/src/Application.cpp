@@ -46,6 +46,7 @@ void Application::Update()
 	glEnable(GL_SCISSOR_TEST);
 	/*glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);*/
+	glDepthFunc(GL_LEQUAL);
 	
 	while (!glfwWindowShouldClose(window))
 	{
@@ -54,6 +55,8 @@ void Application::Update()
 
 		glClearColor(0.f, 0.f, 0.1f, 1.f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		
+		RenderSkybox();
 
 		sceneManager.currentScene->camera.Input(MyTime::Get().DeltaTime(), window);
 		sceneManager.currentScene->camera.Update(window);
@@ -66,6 +69,21 @@ void Application::Update()
 	}
 
 	this->Terminate();
+}
+
+void Application::RenderSkybox()
+{
+	glUseProgram(resourceManager.Get<Shader>("SkyboxShader")->GetProgram());
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, resourceManager.Get<Texture>("Skybox")->GetID());
+
+
+	glBindVertexArray(skybox->GetVAO());
+	glDrawArrays(GL_TRIANGLES, 0, 36);
+
+	glBindVertexArray(0);
+	glUseProgram(0);
 }
 
 
@@ -86,8 +104,8 @@ void Application::CloseWindowInput()
 void Application::LoadResources()
 {
 	Shader* shader = resourceManager.Create<Shader>("Shader");
-	shader->SetVertexShader("Assets/Shaders/VertexShader.glsl");
-	shader->SetFragmentShader("Assets/Shaders/FragmentShader.glsl");
+	shader->SetVertexShader("Assets/Shaders/SkyboxVertex.glsl");
+	shader->SetFragmentShader("Assets/Shaders/SkyboxFragment.glsl");
 	shader->Link();
 	Model* cube = resourceManager.Create<Model>("Cube", "Assets/Meshes/cube.obj");
 	cube->Load();
@@ -95,9 +113,9 @@ void Application::LoadResources()
 	defaultTexture->Load();
 	Model* earth = resourceManager.Create<Model>("Earth", "Assets/Meshes/earth.obj");
 	earth->Load();
-	Texture* earthTexture = resourceManager.Create<Texture>("EarthTexture", "Assets/Textures/earth.png");
+	/*Texture* earthTexture = resourceManager.Create<Texture>("EarthTexture", "Assets/Textures/earth.png");
 	earthTexture->Load();
-	/*Model* moon = resourceManager.Create<Model>("Moon", "Assets/Meshes/moon.obj");
+	Model* moon = resourceManager.Create<Model>("Moon", "Assets/Meshes/moon.obj");
 	moon->Load();
 	Texture* moonTexture = resourceManager.Create<Texture>("MoonTexture", "Assets/Textures/moon.png");
 	moonTexture->Load();
@@ -108,9 +126,18 @@ void Application::LoadResources()
 	Model* rocket = resourceManager.Create<Model>("Rocket", "Assets/Meshes/Rocket.obj");
 	rocket->Load();
 	Texture* rocketTexture = resourceManager.Create<Texture>("RocketTexture", "Assets/Textures/Rocket.jpg");
-	rocketTexture->Load();*/
+	rocketTexture->Load();
 	Texture* Skybox = resourceManager.Create<Texture>("Skybox", "Assets/Textures/Skybox.png");
-	Skybox->Load();
+	Skybox->Load();*/
+	Texture* skyboxTexture = resourceManager.Create<Texture>("Skybox");
+	skyboxTexture->LoadCubemap({
+		"Assets/Textures/Right.png",
+		"Assets/Textures/Left.png",
+		"Assets/Textures/Top.png",
+		"Assets/Textures/Bottom.png",
+		"Assets/Textures/Front.png",
+		"Assets/Textures/Back.png"
+	});
 }
 
 void FramebufferSizeCallback(GLFWwindow* window, int width, int height)

@@ -68,7 +68,7 @@ void SampleScene(Scene* scene, GLFWwindow* window, ResourceManager* resourceMana
 	//Create Object/Texture
 	Model* cube = resourceManager->Get<Model>("Cube");
 	Model* earth = resourceManager->Get<Model>("Earth");
-	Texture* earthTexture = resourceManager->Get<Texture>("EarthTexture");
+	//Texture* earthTexture = resourceManager->Get<Texture>("EarthTexture");
 	/*Model* moon = resourceManager->Get<Model>("Moon");
 	Model* satellite = resourceManager->Get<Model>("Satellite");
 	Model* rocket = resourceManager->Get<Model>("Rocket");
@@ -76,8 +76,7 @@ void SampleScene(Scene* scene, GLFWwindow* window, ResourceManager* resourceMana
 	Texture* satelliteTexture = resourceManager->Get<Texture>("SatelliteTexture");
 	Texture* rocketTexture = resourceManager->Get<Texture>("RocketTexture");
 	Texture* defaultTexture = resourceManager->Get<Texture>("DefaultTexture");*/
-	Texture* Skybox = resourceManager->Get<Texture>("Skybox");
-
+	Texture* skyboxTexture = resourceManager->Get<Texture>("Skybox");
 
 
 	Material* material = new Material(Vector4D(1, 1, 1, 1), Vector4D(1.0f, 1.0f, 1.0f, 1), Vector4D(1, 1, 1, 1));
@@ -141,9 +140,9 @@ void SampleScene(Scene* scene, GLFWwindow* window, ResourceManager* resourceMana
 	scene->sceneGraph.CreateObject("moon", { 0.f, 0.f, 30.f }, { 0.f, 0.f, 0.f }, { 0.7f, 0.7f, 0.7f }, moon, moonTexture, material, scene->sceneGraph.FindObject("earth1"));
 	scene->sceneGraph.CreateObject("moon1", { 0.f, 0.f, 30.f }, { 0.f, 0.f, 0.f }, { 0.6f, 0.6f, 0.6f }, moon, moonTexture, material, scene->sceneGraph.FindObject("earth1"));
 	scene->sceneGraph.CreateObject("satellite", { 0.f, 0.f, 5.f }, { 0.f, 0.f, 0.f }, { 0.001f, 0.001f, 0.001f }, satellite, satelliteTexture, material, scene->sceneGraph.FindObject("earth"));
-	scene->sceneGraph.CreateObject("rocket", { 3.f, 0.f, 0.f }, { 90.f, 0.f, 0.f }, { 0.006f, 0.006f, 0.006f }, rocket, rocketTexture, material, scene->sceneGraph.FindObject("moon1"));*/
-	scene->sceneGraph.CreateObject("Skybox", { 0.f, 0.f, 0.f }, { 0.f, 0.f, 0.f }, { 100.f, 100.f, 100.f }, cube, Skybox, material);
-
+	scene->sceneGraph.CreateObject("rocket", { 3.f, 0.f, 0.f }, { 90.f, 0.f, 0.f }, { 0.006f, 0.006f, 0.006f }, rocket, rocketTexture, material, scene->sceneGraph.FindObject("moon1"));
+	scene->sceneGraph.CreateObject("Skybox", { 0.f, 0.f, 0.f }, { 0.f, 0.f, 0.f }, { 100.f, 100.f, 100.f }, cube, Skybox, material);*/
+	scene->sceneGraph.CreateObject("Skybox", { 0.f, 0.f, 0.f }, { 0.f, 0.f, 0.f }, { 100.f, 100.f, 100.f }, cube, skyboxTexture, material);
 }
 
 void UpdateSampleScene(Scene* scene, GLFWwindow* window, ResourceManager* resourceManager)

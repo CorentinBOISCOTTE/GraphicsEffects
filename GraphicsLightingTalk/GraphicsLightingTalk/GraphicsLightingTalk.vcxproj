@@ -187,7 +187,10 @@
     <ClCompile Include="Code\src\VertexAttributes.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Shaders\SkyboxFagment.glsl" />
+    <None Include="Assets\Shaders\FragmentShader.glsl" />
+    <None Include="Assets\Shaders\SkyboxFragment.glsl" />
+    <None Include="Assets\Shaders\SkyboxVertex.glsl" />
+    <None Include="Assets\Shaders\VertexShader.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
