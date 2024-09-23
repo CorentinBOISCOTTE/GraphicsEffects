@@ -1,7 +1,7 @@
 #include "Camera.h"
 #include <math.h>
 
-Camera::Camera(int _width, int _height, float _fovY, float _top, float _bottom, float _right, float _left, float _near, float _far, bool _freecam, bool _perspective)
+void Camera::Setup(int _width, int _height, float _fovY, float _top, float _bottom, float _right, float _left, float _near, float _far, bool _freecam, bool _perspective)
 {
     width = _width;
     height = _height;

@@ -9,24 +9,19 @@
 
 #include "Shader.h"
 
-class Skybox {
+class Skybox : public IResource
+{
 public:
-    Skybox(std::vector<std::string> faces);
+    Skybox();
+    void Load() override;
+    void Unload() override;
+    bool IsLoaded() override;
 
-    unsigned int LoadCubemap(std::vector<std::string> faces);
+    void LoadCubemap(std::vector<std::string> faces);
 
-    vector<std::string> faces
-    {
-        "Right.png",
-        "Left.png",
-        "Top.png",
-        "Bottom.png",
-        "Front.png",
-        "Back.png"
-    };
-    unsigned int cubemapTexture = LoadCubemap(faces);
+    unsigned int cubemapTexture = 0;
 
-    void Draw(Shader& shader, const mat4x4& view, const mat4x4& projection);
+    void Draw(Shader* shader, const mat4x4& view, const mat4x4& projection);
 
     ~Skybox();
 

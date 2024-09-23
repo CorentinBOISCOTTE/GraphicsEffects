@@ -60,7 +60,8 @@ void SampleScene(Scene* scene, GLFWwindow* window, ResourceManager* resourceMana
 {
 	int width, height;
 	glfwGetFramebufferSize(window, &width, &height);
-	Camera camera(width, height, 45.f, 4.5f, -4.5f, 8.f, -8.f, 0.1f, 10000.f, true, true);
+	Camera camera;
+	camera.Setup(width, height, 45.f, 4.5f, -4.5f, 8.f, -8.f, 0.1f, 10000.f, true, true);
 	scene->camera = camera;
 	Shader* shader = resourceManager->Get<Shader>("Shader");
 	scene->shader = shader;
@@ -142,7 +143,7 @@ void SampleScene(Scene* scene, GLFWwindow* window, ResourceManager* resourceMana
 	scene->sceneGraph.CreateObject("satellite", { 0.f, 0.f, 5.f }, { 0.f, 0.f, 0.f }, { 0.001f, 0.001f, 0.001f }, satellite, satelliteTexture, material, scene->sceneGraph.FindObject("earth"));
 	scene->sceneGraph.CreateObject("rocket", { 3.f, 0.f, 0.f }, { 90.f, 0.f, 0.f }, { 0.006f, 0.006f, 0.006f }, rocket, rocketTexture, material, scene->sceneGraph.FindObject("moon1"));
 	scene->sceneGraph.CreateObject("Skybox", { 0.f, 0.f, 0.f }, { 0.f, 0.f, 0.f }, { 100.f, 100.f, 100.f }, cube, Skybox, material);*/
-	scene->sceneGraph.CreateObject("Skybox", { 0.f, 0.f, 0.f }, { 0.f, 0.f, 0.f }, { 100.f, 100.f, 100.f }, cube, skyboxTexture, material);
+	
 }
 
 void UpdateSampleScene(Scene* scene, GLFWwindow* window, ResourceManager* resourceManager)

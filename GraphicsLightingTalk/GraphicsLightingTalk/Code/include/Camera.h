@@ -15,8 +15,9 @@ class Camera
 {
 public:
     Camera() = default;
-    Camera(int _width, int _height, float _fovY, float _top, float _bottom, float _right, float _left, float _near, float _far, bool _freecam, bool _perspective);
     ~Camera() = default;
+
+    void Setup(int _width, int _height, float _fovY, float _top, float _bottom, float _right, float _left, float _near, float _far, bool _freecam, bool _perspective);
 
     //Matrix
     mat4x4 viewMatrix = viewMatrix.IdentitiesMatrix();
@@ -54,7 +55,7 @@ public:
     Vector3D position = { 0, 0, 0 };
 
     //Camera Move
-    float movementSpeed = 2.f;
+    float movementSpeed = 20.f;
     float sensitivity = 5.f;
 
     double mouseX = 0.0;
