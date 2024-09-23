@@ -99,7 +99,7 @@ void SampleScene(Scene* scene, GLFWwindow* window, ResourceManager* resourceMana
 		directionalLight->ambiantColor = Vector4D(0, 0, 0, 1.0f);
 		directionalLight->diffuseColor = Vector4D(0.6f, 0.6f, 0.6f, 1.0f);
 		directionalLight->specularColor = Vector4D(0.8f, 0.8f, 0.8f, 1.0f);
-		directionalLight->intensity = 1.5f;
+		directionalLight->intensity = 3.f;
 		scene->lights.push_back(directionalLight);
 	}
 

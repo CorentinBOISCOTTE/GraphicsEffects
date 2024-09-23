@@ -164,22 +164,42 @@ vec3 ComputeSpotLight(SpotLight sLight)
 
 void main()
 {
-	if (fs_in.worldPos.y > 22)
+	if (fs_in.worldPos.y > 23)
 	{
 		tempColor = vec4(1, 1, 1, 1);
 	}
-	else if (fs_in.worldPos.y > 8)
+    else if (fs_in.worldPos.y <= 23 && fs_in.worldPos.y >= 21)
+    {
+        float t = (fs_in.worldPos.y - 21) / (23 - 21);
+        tempColor = mix(vec4(0.78, 0.75, 0.72, 1), vec4(1, 1, 1, 1), t);
+    }
+	else if (fs_in.worldPos.y > 9)
 	{
 		tempColor = vec4(0.78, 0.75, 0.72, 1);
 	}
-	else if (fs_in.worldPos.y > -12)
+    else if (fs_in.worldPos.y <= 9 && fs_in.worldPos.y >= 7)
+    {
+        float t = (fs_in.worldPos.y - 7) / (9 - 7);
+        tempColor = mix(vec4(0.07, 0.49, 0.07, 1), vec4(0.78, 0.75, 0.72, 1), t);
+    }
+	else if (fs_in.worldPos.y > -11)
 	{
 		tempColor = vec4(0.07, 0.49, 0.07, 1);
 	}
-	else if (fs_in.worldPos.y > -15)
+    else if (fs_in.worldPos.y <= -11 && fs_in.worldPos.y >= -13)
+    {
+        float t = (fs_in.worldPos.y + 13) / (-11 + 13);
+        tempColor = mix(vec4(1, 0.9, 0.6, 1), vec4(0.07, 0.49, 0.07, 1), t);
+    }
+	else if (fs_in.worldPos.y > -14)
 	{
 		tempColor = vec4(1, 0.9, 0.6, 1);
 	}
+    else if (fs_in.worldPos.y <= -14 && fs_in.worldPos.y >= -16)
+    {
+        float t = (fs_in.worldPos.y + 16) / (-14 + 16);
+        tempColor = mix(vec4(0, 0, 1, 1), vec4(1, 0.9, 0.6, 1), t);
+    }
     else
     {
         tempColor = vec4(0, 0, 1, 1);
