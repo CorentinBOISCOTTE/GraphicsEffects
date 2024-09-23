@@ -142,12 +142,13 @@ bool Model::IsLoaded()
 
 void Model::Draw(Camera* camera, Shader* shader, std::vector<Light*> lights, mat4x4 mvp, mat4x4 model, Texture* texture, Material* material)
 {
-    shader->UseShader();
     if (!IsLoaded())
     {
         std::cout << "Model is not loaded" << std::endl;
         return;
     }
+
+    shader->UseShader();
 
     mat4x4 MVP = mvp;
     MVP.GLMCompatible();
