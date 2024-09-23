@@ -81,6 +81,7 @@
     <ClInclude Include="Code\include\VertexAttributes.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="Code\include\Skybox.h">
     <ClInclude Include="Code\include\Terrain.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
@@ -170,6 +171,15 @@
     <ClCompile Include="..\libs\glad\src\glad.c">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="Code\src\Skybox.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Shaders\FragmentShader.glsl" />
+    <None Include="Assets\Shaders\SkyboxVertex.glsl" />
+    <None Include="Assets\Shaders\VertexShader.glsl" />
+    <None Include="Assets\Shaders\SkyboxFragment.glsl" />
     <ClCompile Include="Code\src\Terrain.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>

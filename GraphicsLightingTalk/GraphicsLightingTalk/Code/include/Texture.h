@@ -13,7 +13,9 @@ public:
 	bool IsLoaded() override;
 	void Bind();
 	void Unbind();
+	void LoadCubemap(const std::vector<std::string>& faces);
 	GLuint texture;
+	GLuint GetID() const { return texture; }
 
 private:
 	int width, height;

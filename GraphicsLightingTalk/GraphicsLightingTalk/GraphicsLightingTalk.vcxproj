@@ -149,6 +149,7 @@
     <ClInclude Include="Code\include\Scene.h" />
     <ClInclude Include="Code\include\SceneManager.h" />
     <ClInclude Include="Code\include\Shader.h" />
+    <ClInclude Include="Code\include\Skybox.h" />
     <ClInclude Include="Code\include\stb_image.h" />
     <ClInclude Include="Code\include\Terrain.h" />
     <ClInclude Include="Code\include\Texture.h" />
@@ -182,9 +183,16 @@
     <ClCompile Include="Code\src\Scene.cpp" />
     <ClCompile Include="Code\src\SceneManager.cpp" />
     <ClCompile Include="Code\src\Shader.cpp" />
+    <ClCompile Include="Code\src\Skybox.cpp" />
     <ClCompile Include="Code\src\Terrain.cpp" />
     <ClCompile Include="Code\src\Texture.cpp" />
     <ClCompile Include="Code\src\VertexAttributes.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Shaders\FragmentShader.glsl" />
+    <None Include="Assets\Shaders\SkyboxFragment.glsl" />
+    <None Include="Assets\Shaders\SkyboxVertex.glsl" />
+    <None Include="Assets\Shaders\VertexShader.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

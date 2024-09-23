@@ -12,6 +12,7 @@
 #include "Camera.h"
 #include "Mesh.h"
 #include "SceneManager.h"
+#include "Skybox.h"
 
 class Application
 {
@@ -20,6 +21,7 @@ public:
 	~Application() = default;
 	void Initialize(uint16_t width, uint16_t height);
 	void Update();
+	void RenderSkybox(Camera camera, Shader* shader, Skybox* skybox);
 	ResourceManager resourceManager;
 	SceneManager sceneManager;
 
@@ -30,6 +32,7 @@ private:
 	void Terminate();
 	void CloseWindowInput();
 	void LoadResources();
+	Skybox* skybox;
 };
 
 void FramebufferSizeCallback(GLFWwindow* window, int width, int height);

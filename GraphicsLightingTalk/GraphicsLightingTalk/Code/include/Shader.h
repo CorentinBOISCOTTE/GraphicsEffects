@@ -21,7 +21,8 @@ public:
 	void SetUniformFloat(std::string name, float value);
 	void SetUniformInt(std::string name, int value);
 
-	GLuint GetProgram() const { return shaderProgram; }
+	GLuint GetProgram() const { return shaderProgram; }   
+
 
 private:
 	void Load() override {}

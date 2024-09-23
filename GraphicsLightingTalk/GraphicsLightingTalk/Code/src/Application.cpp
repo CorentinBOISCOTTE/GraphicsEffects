@@ -38,14 +38,15 @@ void Application::Update()
 	SceneManager _sceneManager(&resourceManager, window);
 	sceneManager = _sceneManager;
 	LoadResources();
+	Shader* shader = resourceManager.Get<Shader>("Shader");
+	Skybox* skybox = resourceManager.Get<Skybox>("Skybox");
 
 	sceneManager.CreateScene("SampleScene", SampleScene, UpdateSampleScene);
 	sceneManager.LoadScene("SampleScene");
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_SCISSOR_TEST);
-	/*glEnable(GL_CULL_FACE);
-	glCullFace(GL_FRONT);*/
+	glDepthFunc(GL_LEQUAL);
 	
 	while (!glfwWindowShouldClose(window))
 	{
@@ -54,6 +55,8 @@ void Application::Update()
 
 		glClearColor(0.53f, 0.81f, 0.92f, 1.f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		
+		RenderSkybox(sceneManager.currentScene->camera, shader, skybox);
 
 		sceneManager.currentScene->camera.Input(MyTime::Get().DeltaTime(), window);
 		sceneManager.currentScene->camera.Update(window);
@@ -66,6 +69,16 @@ void Application::Update()
 	}
 
 	this->Terminate();
+}
+
+void Application::RenderSkybox(Camera camera, Shader* shader, Skybox* skybox)
+{
+	mat4x4 view = camera.getViewMatrix();
+	view.GLMCompatible();
+	mat4x4 projection = camera.getProjection();
+	projection.GLMCompatible();
+
+	skybox->Draw(shader, view, projection);
 }
 
 
@@ -86,8 +99,8 @@ void Application::CloseWindowInput()
 void Application::LoadResources()
 {
 	Shader* shader = resourceManager.Create<Shader>("Shader");
-	shader->SetVertexShader("Assets/Shaders/VertexShader.glsl");
-	shader->SetFragmentShader("Assets/Shaders/FragmentShader.glsl");
+	shader->SetVertexShader("Assets/Shaders/SkyboxVertex.glsl");
+	shader->SetFragmentShader("Assets/Shaders/SkyboxFragment.glsl");
 	shader->Link();
 	Shader* terrainShader = resourceManager.Create<Shader>("TerrainShader");
 	terrainShader->SetVertexShader("Assets/Shaders/TerrainVertex.glsl");
@@ -105,20 +118,16 @@ void Application::LoadResources()
 	defaultTexture->Load();
 	Model* earth = resourceManager.Create<Model>("Earth", "Assets/Meshes/earth.obj");
 	earth->Load();
-	Texture* earthTexture = resourceManager.Create<Texture>("EarthTexture", "Assets/Textures/earth.png");
-	earthTexture->Load();
-	Model* moon = resourceManager.Create<Model>("Moon", "Assets/Meshes/moon.obj");
-	moon->Load();
-	Texture* moonTexture = resourceManager.Create<Texture>("MoonTexture", "Assets/Textures/moon.png");
-	moonTexture->Load();
-	Model* satellite = resourceManager.Create<Model>("Satellite", "Assets/Meshes/Satellite.obj");
-	satellite->Load();
-	Texture* satelliteTexture = resourceManager.Create<Texture>("SatelliteTexture", "Assets/Textures/Satellite.jpg");
-	satelliteTexture->Load();
-	Model* rocket = resourceManager.Create<Model>("Rocket", "Assets/Meshes/Rocket.obj");
-	rocket->Load();
-	Texture* rocketTexture = resourceManager.Create<Texture>("RocketTexture", "Assets/Textures/Rocket.jpg");
-	rocketTexture->Load();*/
+	Skybox* skybox = resourceManager.Create<Skybox>("Skybox");
+
+	skybox->LoadCubemap({
+		"Assets/Textures/skybox/right.jpg",
+		"Assets/Textures/skybox/left.jpg",
+		"Assets/Textures/skybox/top.jpg",
+		"Assets/Textures/skybox/bottom.jpg",
+		"Assets/Textures/skybox/front.jpg",
+		"Assets/Textures/skybox/back.jpg"
+		});
 }
 
 void FramebufferSizeCallback(GLFWwindow* window, int width, int height)
