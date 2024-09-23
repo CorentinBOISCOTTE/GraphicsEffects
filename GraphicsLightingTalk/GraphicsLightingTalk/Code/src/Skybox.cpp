@@ -198,7 +198,7 @@ void Skybox::Draw(Shader* shader, const mat4x4& view, const mat4x4& projection)
 
     glDrawArrays(GL_TRIANGLES, 0, 36);
     glDepthMask(GL_TRUE);
-    glBindVertexArray(0);
+    /*glBindVertexArray(0);*/
 }
 
 Skybox::~Skybox()

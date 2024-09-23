@@ -63,24 +63,13 @@ void SampleScene(Scene* scene, GLFWwindow* window, ResourceManager* resourceMana
 	Camera camera;
 	camera.Setup(width, height, 45.f, 4.5f, -4.5f, 8.f, -8.f, 0.1f, 10000.f, true, true);
 	scene->camera = camera;
-	Shader* shader = resourceManager->Get<Shader>("Shader");
-	scene->shader = shader;
+	/*Shader* shader = resourceManager->Get<Shader>("Shader");
+	scene->shader = shader;*/
 	Shader* terrainShader = resourceManager->Get<Shader>("TerrainShader");
 
 	//Create Object/Texture
 	Model* terrain = resourceManager->Get<Model>("Terrain");
 	Texture* grassTexture = resourceManager->Get<Texture>("Grass");
-	/*Model* cube = resourceManager->Get<Model>("Cube");
-	Texture* earthTexture = resourceManager->Get<Texture>("EarthTexture");
-	Model* earth = resourceManager->Get<Model>("Earth");
-	//Texture* earthTexture = resourceManager->Get<Texture>("EarthTexture");
-	/*Model* moon = resourceManager->Get<Model>("Moon");
-	Model* satellite = resourceManager->Get<Model>("Satellite");
-	Model* rocket = resourceManager->Get<Model>("Rocket");
-	Texture* moonTexture = resourceManager->Get<Texture>("MoonTexture");
-	Texture* satelliteTexture = resourceManager->Get<Texture>("SatelliteTexture");
-	Texture* rocketTexture = resourceManager->Get<Texture>("RocketTexture");
-	Texture* defaultTexture = resourceManager->Get<Texture>("DefaultTexture");*/
 	Texture* skyboxTexture = resourceManager->Get<Texture>("Skybox");
 
 
@@ -99,7 +88,7 @@ void SampleScene(Scene* scene, GLFWwindow* window, ResourceManager* resourceMana
 	if (enableDirectionalLight)
 	{
 		directionalLight = new DirectionalLight();
-		directionalLight->direction = Vector3D(0, 0.5, 1);
+		directionalLight->direction = Vector3D(0, -0.5, 1);
 		directionalLight->ambiantColor = Vector4D(0, 0, 0, 1.0f);
 		directionalLight->diffuseColor = Vector4D(0.6f, 0.6f, 0.6f, 1.0f);
 		directionalLight->specularColor = Vector4D(0.8f, 0.8f, 0.8f, 1.0f);
@@ -141,23 +130,9 @@ void SampleScene(Scene* scene, GLFWwindow* window, ResourceManager* resourceMana
 	}
 
 	scene->sceneGraph.CreateObject("terrain", { 0.f, 0.f, 0.f }, { 0.f, 0.f, 0.f }, { 1.f, 1.f, 1.f }, terrain, grassTexture, material, terrainShader);
-	/*scene->sceneGraph.CreateObject("earth", { 0.f, 0.f, -20.f }, { 10.f, 0.f, 0.f }, { 1.f, 1.f, 1.f }, earth, earthTexture, material);
-	scene->sceneGraph.CreateObject("earth1", { 0.f, 0.f, -20.f }, { 0.f, 0.f, 0.f }, { 0.5f, 0.5f, 0.5f }, earth, earthTexture, material);
-	scene->sceneGraph.CreateObject("moon", { 0.f, 0.f, 30.f }, { 0.f, 0.f, 0.f }, { 0.7f, 0.7f, 0.7f }, moon, moonTexture, material, scene->sceneGraph.FindObject("earth1"));
-	scene->sceneGraph.CreateObject("moon1", { 0.f, 0.f, 30.f }, { 0.f, 0.f, 0.f }, { 0.6f, 0.6f, 0.6f }, moon, moonTexture, material, scene->sceneGraph.FindObject("earth1"));
-	scene->sceneGraph.CreateObject("satellite", { 0.f, 0.f, 5.f }, { 0.f, 0.f, 0.f }, { 0.001f, 0.001f, 0.001f }, satellite, satelliteTexture, material, scene->sceneGraph.FindObject("earth"));
-	scene->sceneGraph.CreateObject("rocket", { 3.f, 0.f, 0.f }, { 90.f, 0.f, 0.f }, { 0.006f, 0.006f, 0.006f }, rocket, rocketTexture, material, scene->sceneGraph.FindObject("moon1"));
-	scene->sceneGraph.CreateObject("Skybox", { 0.f, 0.f, 0.f }, { 0.f, 0.f, 0.f }, { 100.f, 100.f, 100.f }, cube, Skybox, material);*/
 	
 }
 
 void UpdateSampleScene(Scene* scene, GLFWwindow* window, ResourceManager* resourceManager)
 {
-	/*float t = 10.f * MyTime::Get().DeltaTime();
-	Object* earth = scene->sceneGraph.FindObject("earth");
-	Object* earth1 = scene->sceneGraph.FindObject("earth1");
-	Object* moon1 = scene->sceneGraph.FindObject("moon1");
-	earth->Rotate({ 0.f, t, 0.f });
-	earth1->Rotate({ 0.f, t * 3.f, 0.f});
-	moon1->Rotate({ 0.f, 0.f, -t * 7.f });*/
 }

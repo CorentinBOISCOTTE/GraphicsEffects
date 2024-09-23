@@ -18,7 +18,7 @@ public:
 
 private:
 	void FillBuffers();
-	unsigned char* data;
-	int32_t width, height;
-	int channels;
+	unsigned char* data = nullptr;
+	int32_t width, height = 0;
+	int channels = 0;
 };

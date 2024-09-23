@@ -112,12 +112,6 @@ void Application::LoadResources()
 	map->LoadTerrain(terrain);
 	Texture* grassTexture = resourceManager.Create<Texture>("Grass", "Assets/Textures/Terrain/grass.jpg");
 	grassTexture->Load();
-	/*Model* cube = resourceManager.Create<Model>("Cube", "Assets/Meshes/cube.obj");
-	cube->Load();
-	Texture* defaultTexture = resourceManager.Create<Texture>("DefaultTexture", "Assets/Textures/Default.png");
-	defaultTexture->Load();
-	Model* earth = resourceManager.Create<Model>("Earth", "Assets/Meshes/earth.obj");
-	earth->Load();
 	Skybox* skybox = resourceManager.Create<Skybox>("Skybox");
 
 	skybox->LoadCubemap({

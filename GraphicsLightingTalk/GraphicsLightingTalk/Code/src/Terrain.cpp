@@ -33,7 +33,7 @@ void Terrain::FillBuffers()
             vertex.position.y = y * yScale - yShift;
             vertex.position.z = -width / 2.0f + j;
             
-            vertex.normal = { 0, -1, 0 };
+            vertex.normal = { 0, 1, 0 };
 
             vertices.push_back(vertex);
         }

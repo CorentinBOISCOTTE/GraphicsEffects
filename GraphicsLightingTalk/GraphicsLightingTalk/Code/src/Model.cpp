@@ -142,6 +142,7 @@ bool Model::IsLoaded()
 
 void Model::Draw(Camera* camera, Shader* shader, std::vector<Light*> lights, mat4x4 mvp, mat4x4 model, Texture* texture, Material* material)
 {
+    shader->UseShader();
     if (!IsLoaded())
     {
         std::cout << "Model is not loaded" << std::endl;
@@ -163,6 +164,7 @@ void Model::Draw(Camera* camera, Shader* shader, std::vector<Light*> lights, mat
     mat4x4 normalMVP = model;
     normalMVP.getInverse();
     normalMVP.TransposeMatrix();
+
 
     shader->SetUniformMatrix4x4("normalMVP", normalMVP);
 
@@ -254,8 +256,6 @@ void Model::Draw(Camera* camera, Shader* shader, std::vector<Light*> lights, mat
     shader->SetUniformInt("pointLightCount", pointLightCounter);
     shader->SetUniformInt("spotLightCount", spotLightCounter);
     shader->SetUniformColor("globalAmbiantColor", LightingSettings::globalAmbiantColor);
-
-    shader->UseShader();
     
     glBindVertexArray(attributes.m_VAO);
     switch (modelType)
