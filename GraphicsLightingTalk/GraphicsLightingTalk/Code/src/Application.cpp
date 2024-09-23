@@ -94,7 +94,7 @@ void Application::LoadResources()
 	terrainShader->SetFragmentShader("Assets/Shaders/TerrainFragment.glsl");
 	terrainShader->Link();
 	Terrain terrain;
-	terrain.Load("Assets/Textures/iceland_heightmap.png");
+	terrain.Load("Assets/Textures/terrain.jpg");
 	Model* map = resourceManager.Create<Model>("Terrain");
 	map->LoadTerrain(terrain);
 	Texture* grassTexture = resourceManager.Create<Texture>("Grass", "Assets/Textures/Terrain/grass.jpg");

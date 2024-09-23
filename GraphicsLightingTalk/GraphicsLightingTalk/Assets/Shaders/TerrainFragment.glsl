@@ -195,9 +195,9 @@ void main()
 	{
 		tempColor = vec4(1, 0.9, 0.6, 1);
 	}
-    else if (fs_in.worldPos.y <= -14 && fs_in.worldPos.y >= -16)
+    else if (fs_in.worldPos.y <= -14 && fs_in.worldPos.y >= -15)
     {
-        float t = (fs_in.worldPos.y + 16) / (-14 + 16);
+        float t = (fs_in.worldPos.y + 15) / (-14 + 15);
         tempColor = mix(vec4(0, 0, 1, 1), vec4(1, 0.9, 0.6, 1), t);
     }
     else

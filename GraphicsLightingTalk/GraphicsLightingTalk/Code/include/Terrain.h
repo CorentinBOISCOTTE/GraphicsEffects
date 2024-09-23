@@ -4,6 +4,7 @@
 #include <iostream>
 #include "VertexAttributes.h"
 #include <vector>
+#include "Debug.h"
 
 class Terrain
 {
