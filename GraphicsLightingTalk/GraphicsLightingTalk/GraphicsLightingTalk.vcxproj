@@ -137,6 +137,7 @@
     <ClInclude Include="Code\include\Debug.h" />
     <ClInclude Include="Code\include\Graph.h" />
     <ClInclude Include="Code\include\InputManager.h" />
+    <ClInclude Include="Code\include\Instancing.h" />
     <ClInclude Include="Code\include\Light.h" />
     <ClInclude Include="Code\include\Material.h" />
     <ClInclude Include="Code\include\Math\matrice.h" />
@@ -163,6 +164,7 @@
     <ClCompile Include="Code\src\Camera.cpp" />
     <ClCompile Include="Code\src\Debug.cpp" />
     <ClCompile Include="Code\src\InputManager.cpp" />
+    <ClCompile Include="Code\src\Instancing.cpp" />
     <ClCompile Include="Code\src\LightingSettings.cpp" />
     <ClCompile Include="Code\src\main.cpp" />
     <ClCompile Include="Code\src\Material.cpp" />
