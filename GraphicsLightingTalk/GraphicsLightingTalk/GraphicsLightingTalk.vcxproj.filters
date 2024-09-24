@@ -31,6 +31,7 @@
     <ClCompile Include="Code\src\Terrain.cpp" />
     <ClCompile Include="Code\src\Texture.cpp" />
     <ClCompile Include="Code\src\VertexAttributes.cpp" />
+    <ClCompile Include="Code\src\Instancing.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Code\include\Application.h" />
@@ -57,5 +58,6 @@
     <ClInclude Include="Code\include\Texture.h" />
     <ClInclude Include="Code\include\Vertex.h" />
     <ClInclude Include="Code\include\VertexAttributes.h" />
+    <ClInclude Include="Code\include\Instancing.h" />
   </ItemGroup>
 </Project>
