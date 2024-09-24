@@ -14,7 +14,14 @@ out VS_OUT
 
 void main()
 {
-	gl_Position = mvp * vec4(aPos, 1.0f);
 	vs_out.worldPos = vec3(model * vec4(aPos, 1.0f));
+	if (vs_out.worldPos.y <= -14)
+	{
+		gl_Position = vec4(99999999, 999999999, 999999999, 1);
+	}
+	else
+	{
+		gl_Position = mvp * vec4(aPos, 1.0f);
+	}
 	vs_out.normalPos = normalize(mat3(normalMVP) *aNormalPos);
 }

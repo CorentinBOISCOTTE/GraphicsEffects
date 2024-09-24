@@ -55,7 +55,7 @@ public:
     Vector3D position = { 0, 0, 0 };
 
     //Camera Move
-    float movementSpeed = 20.f;
+    float movementSpeed = 200.f;
     float sensitivity = 5.f;
 
     double mouseX = 0.0;

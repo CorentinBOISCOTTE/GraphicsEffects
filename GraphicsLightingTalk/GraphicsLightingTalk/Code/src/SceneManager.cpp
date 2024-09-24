@@ -132,7 +132,7 @@ void SampleScene(Scene* scene, GLFWwindow* window, ResourceManager* resourceMana
 	}
 
 	scene->sceneGraph.CreateObject("terrain", { 0.f, 0.f, 0.f }, { 0.f, 0.f, 0.f }, { 1.f, 1.f, 1.f }, terrain, grassTexture, material, terrainShader);
-	scene->sceneGraph.CreateObject("cube", { 0.f, -15.f, 0.f }, { 0.f, 0.f, 0.f }, { 150.f, 0.01f, 150.f }, cube, grassTexture, material, reflectionShader);
+	scene->sceneGraph.CreateObject("cube", { 0.f, -15.f, 0.f }, { 0.f, 0.f, 0.f }, { 1500.f, 0.01f, 1500.f }, cube, grassTexture, material, reflectionShader);
 	
 }
 

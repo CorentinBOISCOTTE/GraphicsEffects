@@ -4,6 +4,7 @@
 void Terrain::Load(std::filesystem::path fileName)
 {
     std::string outfilename_str = fileName.string();
+    stbi_set_flip_vertically_on_load(true);
     data = stbi_load(outfilename_str.c_str(), &width, &height, &channels, 0);
     if (!data) {
         std::cout << "Erreur lors du chargement de la heightmap " << fileName << std::endl;
