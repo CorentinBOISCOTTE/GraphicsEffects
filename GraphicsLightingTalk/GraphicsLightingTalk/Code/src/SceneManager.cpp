@@ -66,9 +66,11 @@ void SampleScene(Scene* scene, GLFWwindow* window, ResourceManager* resourceMana
 	/*Shader* shader = resourceManager->Get<Shader>("Shader");
 	scene->shader = shader;*/
 	Shader* terrainShader = resourceManager->Get<Shader>("TerrainShader");
+	Shader* reflectionShader = resourceManager->Get<Shader>("ReflectionShader");
 
 	//Create Object/Texture
 	Model* terrain = resourceManager->Get<Model>("Terrain");
+	Model* cube = resourceManager->Get<Model>("Cube");
 	Texture* grassTexture = resourceManager->Get<Texture>("Grass");
 	Texture* skyboxTexture = resourceManager->Get<Texture>("Skybox");
 
@@ -130,6 +132,7 @@ void SampleScene(Scene* scene, GLFWwindow* window, ResourceManager* resourceMana
 	}
 
 	scene->sceneGraph.CreateObject("terrain", { 0.f, 0.f, 0.f }, { 0.f, 0.f, 0.f }, { 1.f, 1.f, 1.f }, terrain, grassTexture, material, terrainShader);
+	scene->sceneGraph.CreateObject("cube", { 0.f, -15.f, 0.f }, { 0.f, 0.f, 0.f }, { 150.f, 0.01f, 150.f }, cube, grassTexture, material, reflectionShader);
 	
 }
 

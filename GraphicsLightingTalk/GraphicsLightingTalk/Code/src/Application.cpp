@@ -106,6 +106,10 @@ void Application::LoadResources()
 	terrainShader->SetVertexShader("Assets/Shaders/TerrainVertex.glsl");
 	terrainShader->SetFragmentShader("Assets/Shaders/TerrainFragment.glsl");
 	terrainShader->Link();
+	Shader* reflectionShader = resourceManager.Create<Shader>("ReflectionShader");
+	reflectionShader->SetVertexShader("Assets/Shaders/ReflectionVertex.glsl");
+	reflectionShader->SetFragmentShader("Assets/Shaders/ReflectionFragment.glsl");
+	reflectionShader->Link();
 	Terrain terrain;
 	terrain.Load("Assets/Textures/terrain.jpg");
 	Model* map = resourceManager.Create<Model>("Terrain");
@@ -113,15 +117,16 @@ void Application::LoadResources()
 	Texture* grassTexture = resourceManager.Create<Texture>("Grass", "Assets/Textures/Terrain/grass.jpg");
 	grassTexture->Load();
 	Skybox* skybox = resourceManager.Create<Skybox>("Skybox");
-
 	skybox->LoadCubemap({
-		"Assets/Textures/skybox/right.jpg",
-		"Assets/Textures/skybox/left.jpg",
-		"Assets/Textures/skybox/top.jpg",
-		"Assets/Textures/skybox/bottom.jpg",
-		"Assets/Textures/skybox/front.jpg",
-		"Assets/Textures/skybox/back.jpg"
+		"Assets/Textures/skybox/right.png",
+		"Assets/Textures/skybox/left.png",
+		"Assets/Textures/skybox/top.png",
+		"Assets/Textures/skybox/bottom.png",
+		"Assets/Textures/skybox/front.png",
+		"Assets/Textures/skybox/back.png"
 		});
+	Model* cube = resourceManager.Create<Model>("Cube", "Assets/Meshes/cube.obj");
+	cube->Load();
 }
 
 void FramebufferSizeCallback(GLFWwindow* window, int width, int height)
