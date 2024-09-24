@@ -31,6 +31,7 @@ private:
 	GLFWwindow* window;
 	void Terminate();
 	void CloseWindowInput();
+	void PostProcessingInput(Shader* shader);
 	void LoadResources();
 	Skybox* skybox;
 };

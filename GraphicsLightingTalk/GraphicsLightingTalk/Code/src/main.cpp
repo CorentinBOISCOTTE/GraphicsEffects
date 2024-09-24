@@ -4,7 +4,7 @@ int main(void)
 {
     Application application;
 
-    application.Initialize(1280, 720);
+    application.Initialize(1920, 1080);
     
     application.Update();
 
