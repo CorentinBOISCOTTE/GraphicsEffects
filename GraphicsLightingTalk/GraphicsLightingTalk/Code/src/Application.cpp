@@ -226,6 +226,16 @@ void Application::PostProcessingInput(Shader* shader)
 		shader->UseShader();
 		shader->SetUniformInt("screenTex", 0);
 	}
+	if (glfwGetKey(window, GLFW_KEY_7) == GLFW_PRESS)
+	{
+		shader->SetVertexShader("Assets/Shaders/FramebufferVertex.glsl");
+		shader->SetFragmentShader("Assets/Shaders/PostProcessing/Vignette.glsl");
+		shader->Link();
+		shader->UseShader();
+		shader->SetUniformInt("screenTex", 0);
+		shader->SetUniformFloat("radius", 0.6);
+		shader->SetUniformFloat("softness", 0.5);
+	}
 }
 
 void Application::LoadResources()
