@@ -96,8 +96,10 @@ void Application::Update()
 	sceneManager.CreateScene("SampleScene", SampleScene, UpdateSampleScene);
 	sceneManager.LoadScene("SampleScene");
 
-
-	Instancing trees();
+	Shader* instancingShader = resourceManager.Get<Shader>("InstancingShader");
+	Texture* treeTexture = resourceManager.Get<Texture>("TreeTexture");
+	mat4x4 instancingModel = instancingModel.Get_TRS_Matrix({ 0, 0, 0 }, { 0, 0, 0 }, { 100, 100, 100 });
+	Instancing trees("Assets/Meshes/tree.obj", instancingShader, treeTexture, 80);
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_SCISSOR_TEST);
@@ -122,6 +124,8 @@ void Application::Update()
 
 		sceneManager.currentScene->Update(window, &resourceManager);
 		sceneManager.currentScene->Draw();
+
+		trees.Draw(sceneManager.currentScene->camera, instancingModel);
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glDisable(GL_DEPTH_TEST);
@@ -272,6 +276,18 @@ void Application::LoadResources()
 		});
 	Model* cube = resourceManager.Create<Model>("Cube", "Assets/Meshes/cube.obj");
 	cube->Load();
+	Shader* instancingShader = resourceManager.Create<Shader>("InstancingShader");
+	instancingShader->SetVertexShader("Assets/Shaders/Instancing/InstancingVertex.glsl");
+	instancingShader->SetFragmentShader("Assets/Shaders/Instancing/InstancingFragment.glsl");
+	instancingShader->Link();
+	Texture* treeTexture = resourceManager.Create<Texture>("TreeTexture", "Assets/Textures/wood.png");
+	treeTexture->Load();
+	Model* tree = resourceManager.Create<Model>("Tree", "Assets/Meshes/tree.obj");
+	tree->Load();
+	Shader* testShader = resourceManager.Create<Shader>("TestShader");
+	testShader->SetVertexShader("Assets/Shaders/VertexShader.glsl");
+	testShader->SetFragmentShader("Assets/Shaders/FragmentShader.glsl");
+	testShader->Link();
 }
 
 void FramebufferSizeCallback(GLFWwindow* window, int width, int height)

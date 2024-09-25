@@ -63,8 +63,8 @@ void SampleScene(Scene* scene, GLFWwindow* window, ResourceManager* resourceMana
 	Camera camera;
 	camera.Setup(width, height, 45.f, 4.5f, -4.5f, 8.f, -8.f, 0.1f, 10000.f, true, true);
 	scene->camera = camera;
-	/*Shader* shader = resourceManager->Get<Shader>("Shader");
-	scene->shader = shader;*/
+	Shader* shader = resourceManager->Get<Shader>("TestShader");
+	scene->shader = shader;
 	Shader* terrainShader = resourceManager->Get<Shader>("TerrainShader");
 	Shader* reflectionShader = resourceManager->Get<Shader>("ReflectionShader");
 
@@ -73,7 +73,8 @@ void SampleScene(Scene* scene, GLFWwindow* window, ResourceManager* resourceMana
 	Model* cube = resourceManager->Get<Model>("Cube");
 	Texture* grassTexture = resourceManager->Get<Texture>("Grass");
 	Texture* skyboxTexture = resourceManager->Get<Texture>("Skybox");
-
+	Texture* treeTexture = resourceManager->Get<Texture>("TreeTexture");
+	Model* tree = resourceManager->Get<Model>("Tree");
 
 	Material* material = new Material(Vector4D(1, 1, 1, 1), Vector4D(1.0f, 1.0f, 1.0f, 1), Vector4D(0.1, 0.1, 0.1, 1));
 	scene->materials.push_back(material);
@@ -131,9 +132,9 @@ void SampleScene(Scene* scene, GLFWwindow* window, ResourceManager* resourceMana
 		scene->lights.push_back(spotLight);
 	}
 
-	scene->sceneGraph.CreateObject("terrain", { 0.f, 0.f, 0.f }, { 0.f, 0.f, 0.f }, { 1.f, 1.f, 1.f }, terrain, grassTexture, material, terrainShader);
-	scene->sceneGraph.CreateObject("cube", { 0.f, -15.f, 0.f }, { 0.f, 0.f, 0.f }, { 1500.f, 0.01f, 1500.f }, cube, grassTexture, material, reflectionShader);
-	
+	/*scene->sceneGraph.CreateObject("terrain", { 0.f, 0.f, 0.f }, { 0.f, 0.f, 0.f }, { 1.f, 1.f, 1.f }, terrain, grassTexture, material, terrainShader);
+	scene->sceneGraph.CreateObject("cube", { 0.f, -15.f, 0.f }, { 0.f, 0.f, 0.f }, { 1500.f, 0.01f, 1500.f }, cube, grassTexture, material, reflectionShader);*/
+	scene->sceneGraph.CreateObject("tree", { 0, 0, 0 }, { 0, 0, 0 }, { 1, 1, 1}, tree, treeTexture, material, shader);
 }
 
 void UpdateSampleScene(Scene* scene, GLFWwindow* window, ResourceManager* resourceManager)

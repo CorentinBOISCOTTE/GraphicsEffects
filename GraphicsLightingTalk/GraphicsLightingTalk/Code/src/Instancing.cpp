@@ -72,7 +72,7 @@ Instancing::Instancing(std::filesystem::path filename, Shader* shader, Texture* 
                 if (!normalIndexStr.empty())
                     vertex.normal = normal[normalIndex];
                 else
-                    vertex.normal = Vector3D(0.f, 0.f, 0.f);
+                    vertex.normal = Vector3D(0.f, 1.f, 0.f);
 
                 std::tuple<int, int, int> vertexTuple = std::make_tuple(vertexIndex, textureIndex, normalIndex);
                 auto it = map.find(vertexTuple);
@@ -104,10 +104,18 @@ Instancing::~Instancing()
     glDeleteBuffers(1, &m_EBO);
 }
 
-void Instancing::Draw(Camera* camera, mat4x4 model)
+void Instancing::Draw(Camera camera, mat4x4 model)
 {
+    mat4x4 MODEL = model;
+    MODEL.GLMCompatible();
+
+    mat4x4 vp = camera.getVP();
+    vp.GLMCompatible();
+
     shader->UseShader();
     texture->Bind();
+    shader->SetUniformMatrix4x4("model", MODEL);
+    shader->SetUniformMatrix4x4("vp", vp);
     glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 4, m_VBO);
     glBindVertexArray(attributes.m_VAO);
     glDrawElementsInstanced(GL_QUADS, indexBuffer.size(), GL_UNSIGNED_INT, 0, nbInstances);
@@ -136,6 +144,7 @@ void Instancing::BindBuffers()
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexBuffer.size() * sizeof(uint32_t), indexBuffer.data(), GL_STATIC_DRAW);
+    glNamedBufferStorage(m_VBO, indexBuffer.size(), &instances[0], GL_DYNAMIC_STORAGE_BIT);
 
     attributes.Setup();
     attributes.Reset();

@@ -18,7 +18,7 @@ class Instancing
 public:
 	Instancing(std::filesystem::path filename, Shader* shader, Texture* texture, uint32_t nbInstances);
 	~Instancing();
-	void Draw(Camera* camera, mat4x4 model);
+	void Draw(Camera camera, mat4x4 model);
 
 private:
 	void CreatePositions();
