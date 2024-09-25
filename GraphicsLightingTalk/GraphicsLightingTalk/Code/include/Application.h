@@ -13,6 +13,7 @@
 #include "Mesh.h"
 #include "SceneManager.h"
 #include "Skybox.h"
+#include "Instancing.h"
 
 class Application
 {
@@ -26,14 +27,14 @@ public:
 	SceneManager sceneManager;
 
 private:
-	uint16_t m_width = 0;
-	uint16_t m_height = 0;
 	GLFWwindow* window;
 	void Terminate();
 	void CloseWindowInput();
 	void PostProcessingInput(Shader* shader);
 	void LoadResources();
 	Skybox* skybox;
+	uint16_t m_width = 0;
+	uint16_t m_height = 0;
 };
 
 void FramebufferSizeCallback(GLFWwindow* window, int width, int height);

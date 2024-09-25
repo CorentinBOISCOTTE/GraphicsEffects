@@ -96,6 +96,9 @@ void Application::Update()
 	sceneManager.CreateScene("SampleScene", SampleScene, UpdateSampleScene);
 	sceneManager.LoadScene("SampleScene");
 
+
+	Instancing trees();
+
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_SCISSOR_TEST);
 	glDepthFunc(GL_LEQUAL);

@@ -1,8 +1,10 @@
 #include "Instancing.h"
 
-Instancing::Instancing(std::filesystem::path filename, Shader* shader)
+Instancing::Instancing(std::filesystem::path filename, Shader* shader, Texture* texture, uint32_t nbInstances)
 {
     this->shader = shader;
+    this->nbInstances = nbInstances;
+    this->texture = texture;
 
     std::vector<Vector3D> position;
     std::vector<Vector2D> textureUV;
@@ -86,6 +88,8 @@ Instancing::Instancing(std::filesystem::path filename, Shader* shader)
             }
         }
     }
+    CreatePositions();
+    BindBuffers();
     position.clear();
     textureUV.clear();
     normal.clear();
@@ -96,4 +100,46 @@ Instancing::~Instancing()
 {
     vertices.clear();
     indexBuffer.clear();
+    glDeleteBuffers(1, &m_VBO);
+    glDeleteBuffers(1, &m_EBO);
+}
+
+void Instancing::Draw(Camera* camera, mat4x4 model)
+{
+    shader->UseShader();
+    texture->Bind();
+    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 4, m_VBO);
+    glBindVertexArray(attributes.m_VAO);
+    glDrawElementsInstanced(GL_QUADS, indexBuffer.size(), GL_UNSIGNED_INT, 0, nbInstances);
+    texture->Unbind();
+}
+
+void Instancing::CreatePositions()
+{
+    int offset = 10;
+    for (int i = 0; i < nbInstances; i++)
+    {
+        instances.push_back({ 0.f, 30.f, (i * offset) - (nbInstances * 0.5f * offset), 1.f });
+    }
+}
+
+void Instancing::BindBuffers()
+{
+    glGenBuffers(1, &m_VBO);
+    glGenBuffers(1, &m_EBO);
+
+    attributes.Load();
+    attributes.Bind();
+
+    glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), vertices.data(), GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexBuffer.size() * sizeof(uint32_t), indexBuffer.data(), GL_STATIC_DRAW);
+
+    attributes.Setup();
+    attributes.Reset();
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
