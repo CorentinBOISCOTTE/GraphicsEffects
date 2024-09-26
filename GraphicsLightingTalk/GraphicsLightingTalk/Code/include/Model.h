@@ -30,10 +30,10 @@ public:
     void Unload() override;
     bool IsLoaded() override;
     void Draw(Camera* camera, Shader* shader, std::vector<Light*> lights, mat4x4 mvp, mat4x4 model, Texture* texture, Material* material);
+    std::vector<Vertex> vertices;
 
 private:
     void BindBuffers();
-    std::vector<Vertex> vertices;
     std::vector<uint32_t> indexBuffer;
     Buffer buffer;
     TYPE modelType;

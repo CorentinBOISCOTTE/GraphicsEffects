@@ -100,6 +100,15 @@ void Application::Update()
 	Texture* treeTexture = resourceManager.Get<Texture>("TreeTexture");
 	mat4x4 instancingModel = instancingModel.Get_TRS_Matrix({ 0, 0, 0 }, { 0, 0, 0 }, { 1, 1, 1 });
 	Instancing trees("Assets/Meshes/tree.obj", 10000);
+	Model* map = resourceManager.Get<Model>("Terrain");
+	for (Vertex v : map->vertices)
+	{
+		if (v.position.y > -11 && v.position.y < 7)
+		{
+			trees.tempInstances.push_back({ v.position.x, v.position.y, v.position.z, 1.f });
+		}
+	}
+	trees.Load();
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_SCISSOR_TEST);

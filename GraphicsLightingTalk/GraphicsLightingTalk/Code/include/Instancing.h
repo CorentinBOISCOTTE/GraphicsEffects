@@ -1,7 +1,10 @@
 #pragma once
 #include "glad/glad.h"
 #include <GLFW/glfw3.h>
+#include <algorithm>
 #include <vector>
+#include <random>
+#include <iterator>
 #include <sstream>
 #include <unordered_map>
 #include "Math/matrice.h"
@@ -18,17 +21,20 @@ class Instancing
 public:
 	Instancing(std::filesystem::path filename, uint32_t nbInstances);
 	~Instancing();
+	void Load();
 	void Draw(Camera camera, mat4x4 model, Shader* shader, Texture* texture);
+	uint32_t nbInstances;
+	std::vector<Vector4D> tempInstances;
 
 private:
-	void CreatePositions();
 	void BindBuffers();
+	void CreatePositions();
     std::vector<Vertex> vertices;
     std::vector<uint32_t> indexBuffer;
 	std::vector<Vector4D> instances;
-	uint32_t nbInstances;
-	GLuint m_VAO;
-	GLuint m_VBO;
-	GLuint m_EBO;
-	GLuint m_IBO;
+	GLuint m_VAO = 0;
+	GLuint m_VBO = 0;
+	GLuint m_EBO = 0;
+	GLuint m_IBO = 0;
+	std::filesystem::path filename;
 };

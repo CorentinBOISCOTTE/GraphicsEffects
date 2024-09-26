@@ -3,7 +3,20 @@
 Instancing::Instancing(std::filesystem::path filename, uint32_t nbInstances)
 {
     this->nbInstances = nbInstances;
+    this->filename = filename;
+}
 
+Instancing::~Instancing()
+{
+    vertices.clear();
+    indexBuffer.clear();
+    glDeleteBuffers(1, &m_VBO);
+    glDeleteBuffers(1, &m_EBO);
+    glDeleteBuffers(1, &m_VAO);
+}
+
+void Instancing::Load()
+{
     std::vector<Vector3D> position;
     std::vector<Vector2D> textureUV;
     std::vector<Vector3D> normal;
@@ -94,15 +107,6 @@ Instancing::Instancing(std::filesystem::path filename, uint32_t nbInstances)
     myfile.close();
 }
 
-Instancing::~Instancing()
-{
-    vertices.clear();
-    indexBuffer.clear();
-    glDeleteBuffers(1, &m_VBO);
-    glDeleteBuffers(1, &m_EBO);
-    glDeleteBuffers(1, &m_VAO);
-}
-
 void Instancing::Draw(Camera camera, mat4x4 model, Shader* shader, Texture* texture)
 {
     mat4x4 MODEL = model;
@@ -125,18 +129,27 @@ void Instancing::Draw(Camera camera, mat4x4 model, Shader* shader, Texture* text
 
 void Instancing::CreatePositions()
 {
-    int offset = 10;
-    for (int i = 0; i < nbInstances; i++)
+    if (tempInstances.size() > 0)
     {
-        instances.push_back({ 0.f, 30.f, (i * offset) - (nbInstances * 0.5f * offset), 1.f });
+        auto gen = std::mt19937(1);
+        std::sample(tempInstances.begin(), tempInstances.end(), std::back_inserter(instances), nbInstances, gen);
     }
+    else
+    {
+        int offset = 10;
+        for (int i = 0; i < nbInstances; i++)
+        {
+            instances.push_back({ 0.f, 30.f, (i * offset) - (nbInstances * 0.5f * offset), 1.f });
+        }
+    }
+    tempInstances.clear();
 }
 
 void Instancing::BindBuffers()
 {
     glCreateBuffers(1, &m_VBO);
     glCreateBuffers(1, &m_EBO);
-    glCreateVertexArrays(1, &m_VAO);
+    glCreateBuffers(1, &m_VAO);
 
     glNamedBufferStorage(m_VBO, sizeof(vertices), vertices.data(), 0);
     glNamedBufferStorage(m_EBO, sizeof(indexBuffer), indexBuffer.data(), 0);
@@ -155,34 +168,6 @@ void Instancing::BindBuffers()
 
     glVertexArrayVertexBuffer(m_VAO, 0, m_VBO, 0, sizeof(Vertex));
     glVertexArrayElementBuffer(m_VAO, m_EBO);
-
-    /*glGenBuffers(1, &m_VBO);
-    glGenBuffers(1, &m_EBO);
-    glGenBuffers(1, &m_VAO);
-    glBindVertexArray(m_VAO);
-
-    glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), vertices.data(), GL_STATIC_DRAW);
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexBuffer.size() * sizeof(uint32_t), indexBuffer.data(), GL_STATIC_DRAW);
-
-#define POSITION 0
-    glVertexAttribPointer(POSITION, 3, GL_FLOAT, false, sizeof(Vertex), (void*)offsetof(Vertex, position));
-    glEnableVertexAttribArray(POSITION);
-#undef POSITION
-#define UV 1
-    glVertexAttribPointer(UV, 2, GL_FLOAT, false, sizeof(Vertex), (void*)offsetof(Vertex, textureUV));
-    glEnableVertexAttribArray(UV);
-#undef UV
-#define NORMAL 2
-    glVertexAttribPointer(NORMAL, 3, GL_FLOAT, false, sizeof(Vertex), (void*)offsetof(Vertex, normal));
-    glEnableVertexAttribArray(NORMAL);
-#undef NORMAL
-
-    glBindVertexArray(0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);*/
 
     glCreateBuffers(1, &m_IBO);
     glNamedBufferStorage(m_IBO, nbInstances * sizeof(Vector4D), instances.data(), 0);
