@@ -98,8 +98,8 @@ void Application::Update()
 
 	Shader* instancingShader = resourceManager.Get<Shader>("InstancingShader");
 	Texture* treeTexture = resourceManager.Get<Texture>("TreeTexture");
-	mat4x4 instancingModel = instancingModel.Get_TRS_Matrix({ 0, 0, 0 }, { 0, 0, 0 }, { 100, 100, 100 });
-	Instancing trees("Assets/Meshes/tree.obj", instancingShader, treeTexture, 80);
+	mat4x4 instancingModel = instancingModel.Get_TRS_Matrix({ 0, 0, 0 }, { 0, 0, 0 }, { 1, 1, 1 });
+	Instancing trees("Assets/Meshes/tree.obj", 10000);
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_SCISSOR_TEST);
@@ -124,8 +124,8 @@ void Application::Update()
 
 		sceneManager.currentScene->Update(window, &resourceManager);
 		sceneManager.currentScene->Draw();
+		trees.Draw(sceneManager.currentScene->camera, instancingModel, instancingShader, treeTexture);
 
-		trees.Draw(sceneManager.currentScene->camera, instancingModel);
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glDisable(GL_DEPTH_TEST);

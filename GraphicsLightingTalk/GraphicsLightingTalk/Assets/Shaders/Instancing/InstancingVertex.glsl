@@ -1,8 +1,8 @@
 #version 460 core
 
 layout (location = 0) in vec3 aPos;
-layout (location = 1) in vec2 aTexPos;
-layout (location = 2) in vec3 aNormalPos;
+layout (location = 1) in vec3 aNormalPos;
+layout (location = 2) in vec2 aTexPos;
         
 out vec2 texPos;
 

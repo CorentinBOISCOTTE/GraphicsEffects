@@ -16,9 +16,9 @@
 class Instancing
 {
 public:
-	Instancing(std::filesystem::path filename, Shader* shader, Texture* texture, uint32_t nbInstances);
+	Instancing(std::filesystem::path filename, uint32_t nbInstances);
 	~Instancing();
-	void Draw(Camera camera, mat4x4 model);
+	void Draw(Camera camera, mat4x4 model, Shader* shader, Texture* texture);
 
 private:
 	void CreatePositions();
@@ -26,10 +26,9 @@ private:
     std::vector<Vertex> vertices;
     std::vector<uint32_t> indexBuffer;
 	std::vector<Vector4D> instances;
-	Shader* shader;
-	Texture* texture;
 	uint32_t nbInstances;
-	GLuint m_VBO = 0;
-	GLuint m_EBO = 0;
-	VertexAttributes attributes;
+	GLuint m_VAO;
+	GLuint m_VBO;
+	GLuint m_EBO;
+	GLuint m_IBO;
 };

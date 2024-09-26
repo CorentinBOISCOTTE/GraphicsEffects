@@ -1,10 +1,8 @@
 #include "Instancing.h"
 
-Instancing::Instancing(std::filesystem::path filename, Shader* shader, Texture* texture, uint32_t nbInstances)
+Instancing::Instancing(std::filesystem::path filename, uint32_t nbInstances)
 {
-    this->shader = shader;
     this->nbInstances = nbInstances;
-    this->texture = texture;
 
     std::vector<Vector3D> position;
     std::vector<Vector2D> textureUV;
@@ -102,9 +100,10 @@ Instancing::~Instancing()
     indexBuffer.clear();
     glDeleteBuffers(1, &m_VBO);
     glDeleteBuffers(1, &m_EBO);
+    glDeleteBuffers(1, &m_VAO);
 }
 
-void Instancing::Draw(Camera camera, mat4x4 model)
+void Instancing::Draw(Camera camera, mat4x4 model, Shader* shader, Texture* texture)
 {
     mat4x4 MODEL = model;
     MODEL.GLMCompatible();
@@ -116,9 +115,11 @@ void Instancing::Draw(Camera camera, mat4x4 model)
     texture->Bind();
     shader->SetUniformMatrix4x4("model", MODEL);
     shader->SetUniformMatrix4x4("vp", vp);
-    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 4, m_VBO);
-    glBindVertexArray(attributes.m_VAO);
-    glDrawElementsInstanced(GL_QUADS, indexBuffer.size(), GL_UNSIGNED_INT, 0, nbInstances);
+
+    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 4, m_IBO);
+    glBindVertexArray(m_VAO);
+    glDrawElementsInstanced(GL_QUADS, indexBuffer.size(), GL_UNSIGNED_INT, indexBuffer.data(), nbInstances);
+
     texture->Unbind();
 }
 
@@ -133,22 +134,56 @@ void Instancing::CreatePositions()
 
 void Instancing::BindBuffers()
 {
-    glGenBuffers(1, &m_VBO);
-    glGenBuffers(1, &m_EBO);
+    glCreateBuffers(1, &m_VBO);
+    glCreateBuffers(1, &m_EBO);
+    glCreateVertexArrays(1, &m_VAO);
 
-    attributes.Load();
-    attributes.Bind();
+    glNamedBufferStorage(m_VBO, sizeof(vertices), vertices.data(), 0);
+    glNamedBufferStorage(m_EBO, sizeof(indexBuffer), indexBuffer.data(), 0);
+
+    glEnableVertexArrayAttrib(m_VAO, 0);
+    glEnableVertexArrayAttrib(m_VAO, 1);
+    glEnableVertexArrayAttrib(m_VAO, 2);
+
+    glVertexArrayAttribFormat(m_VAO, 0, 3, GL_FLOAT, false, offsetof(Vertex, position));
+    glVertexArrayAttribFormat(m_VAO, 1, 3, GL_FLOAT, false, offsetof(Vertex, normal));
+    glVertexArrayAttribFormat(m_VAO, 2, 2, GL_FLOAT, false, offsetof(Vertex, textureUV));
+
+    glVertexArrayAttribBinding(m_VAO, 0, 0);
+    glVertexArrayAttribBinding(m_VAO, 1, 0);
+    glVertexArrayAttribBinding(m_VAO, 2, 0);
+
+    glVertexArrayVertexBuffer(m_VAO, 0, m_VBO, 0, sizeof(Vertex));
+    glVertexArrayElementBuffer(m_VAO, m_EBO);
+
+    /*glGenBuffers(1, &m_VBO);
+    glGenBuffers(1, &m_EBO);
+    glGenBuffers(1, &m_VAO);
+    glBindVertexArray(m_VAO);
 
     glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
     glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), vertices.data(), GL_STATIC_DRAW);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexBuffer.size() * sizeof(uint32_t), indexBuffer.data(), GL_STATIC_DRAW);
-    glNamedBufferStorage(m_VBO, indexBuffer.size(), &instances[0], GL_DYNAMIC_STORAGE_BIT);
 
-    attributes.Setup();
-    attributes.Reset();
+#define POSITION 0
+    glVertexAttribPointer(POSITION, 3, GL_FLOAT, false, sizeof(Vertex), (void*)offsetof(Vertex, position));
+    glEnableVertexAttribArray(POSITION);
+#undef POSITION
+#define UV 1
+    glVertexAttribPointer(UV, 2, GL_FLOAT, false, sizeof(Vertex), (void*)offsetof(Vertex, textureUV));
+    glEnableVertexAttribArray(UV);
+#undef UV
+#define NORMAL 2
+    glVertexAttribPointer(NORMAL, 3, GL_FLOAT, false, sizeof(Vertex), (void*)offsetof(Vertex, normal));
+    glEnableVertexAttribArray(NORMAL);
+#undef NORMAL
 
+    glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);*/
+
+    glCreateBuffers(1, &m_IBO);
+    glNamedBufferStorage(m_IBO, nbInstances * sizeof(Vector4D), instances.data(), 0);
 }
