@@ -104,6 +104,7 @@ void Model::Load() {
     textureUV.clear();
     normal.clear();
     myfile.close();
+    vertices.clear();
 }
 
 void Model::LoadTerrain(Terrain terrain)
@@ -135,7 +136,7 @@ void Model::Unload()
 
 bool Model::IsLoaded()
 {
-    if (vertices.size() > 0 && indexBuffer.size() > 0)
+    if (indexBuffer.size() > 0)
         return true;
     return false;
 }

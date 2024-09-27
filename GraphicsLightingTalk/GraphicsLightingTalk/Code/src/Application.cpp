@@ -1,5 +1,7 @@
 #include "Application.h"
 
+//void SetupDebugCallback();
+
 void Application::Initialize(uint16_t width, uint16_t height)
 {
 	m_width = width;
@@ -27,6 +29,10 @@ void Application::Initialize(uint16_t width, uint16_t height)
 		std::cout << "Failed to initialize GLAD" << std::endl;
 		return;
 	}
+
+//#ifndef NDEBUG
+//	SetupDebugCallback();
+//#endif
 
 	printf("GL_VENDOR: %s\n", glGetString(GL_VENDOR));
 	printf("GL_VERSION: %s\n", glGetString(GL_VERSION));
@@ -98,8 +104,14 @@ void Application::Update()
 
 	Shader* instancingShader = resourceManager.Get<Shader>("InstancingShader");
 	Texture* treeTexture = resourceManager.Get<Texture>("TreeTexture");
-	mat4x4 instancingModel = instancingModel.Get_TRS_Matrix({ 0, 0, 0 }, { 0, 0, 0 }, { 1, 1, 1 });
+	mat4x4 treesModel = treesModel.Get_TRS_Matrix({ 0, 0, 0 }, { 0, 0, 0 }, { 2.f, 2.f, 2.f });
 	Instancing trees("Assets/Meshes/tree.obj", 10000);
+
+	Texture* penguinTexture = resourceManager.Get<Texture>("PenguinTexture");
+	mat4x4 penguingModel = penguingModel.Get_TRS_Matrix({ 0, 0, 0 }, { 0, 0, 0 }, { 3.f, 3.f, 3.f });
+	Instancing penguins("Assets/Meshes/Penguin.obj", 1000);
+
+
 	Model* map = resourceManager.Get<Model>("Terrain");
 	for (Vertex v : map->vertices)
 	{
@@ -107,8 +119,15 @@ void Application::Update()
 		{
 			trees.tempInstances.push_back({ v.position.x, v.position.y, v.position.z, 1.f });
 		}
+		else if (v.position.y > 23)
+		{
+			penguins.tempInstances.push_back({ v.position.x, v.position.y, v.position.z, 1.f });
+		}
 	}
 	trees.Load();
+	penguins.Load();
+	map->vertices.clear();
+
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_SCISSOR_TEST);
@@ -131,9 +150,10 @@ void Application::Update()
 		sceneManager.currentScene->camera.Input(MyTime::Get().DeltaTime(), window);
 		sceneManager.currentScene->camera.Update(window);
 
+		trees.Draw(sceneManager.currentScene->camera, treesModel, instancingShader, treeTexture);
+		penguins.Draw(sceneManager.currentScene->camera, penguingModel, instancingShader, penguinTexture);
 		sceneManager.currentScene->Update(window, &resourceManager);
 		sceneManager.currentScene->Draw();
-		trees.Draw(sceneManager.currentScene->camera, instancingModel, instancingShader, treeTexture);
 
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -272,8 +292,6 @@ void Application::LoadResources()
 	terrain.Load("Assets/Textures/iceland_heightmap.png");
 	Model* map = resourceManager.Create<Model>("Terrain");
 	map->LoadTerrain(terrain);
-	Texture* grassTexture = resourceManager.Create<Texture>("Grass", "Assets/Textures/Terrain/grass.jpg");
-	grassTexture->Load();
 	Skybox* skybox = resourceManager.Create<Skybox>("Skybox");
 	skybox->LoadCubemap({
 		"Assets/Textures/skybox/right.png",
@@ -289,7 +307,7 @@ void Application::LoadResources()
 	instancingShader->SetVertexShader("Assets/Shaders/Instancing/InstancingVertex.glsl");
 	instancingShader->SetFragmentShader("Assets/Shaders/Instancing/InstancingFragment.glsl");
 	instancingShader->Link();
-	Texture* treeTexture = resourceManager.Create<Texture>("TreeTexture", "Assets/Textures/wood.png");
+	Texture* treeTexture = resourceManager.Create<Texture>("TreeTexture", "Assets/Textures/Terrain/grass.jpg");
 	treeTexture->Load();
 	Model* tree = resourceManager.Create<Model>("Tree", "Assets/Meshes/tree.obj");
 	tree->Load();
@@ -297,6 +315,8 @@ void Application::LoadResources()
 	testShader->SetVertexShader("Assets/Shaders/VertexShader.glsl");
 	testShader->SetFragmentShader("Assets/Shaders/FragmentShader.glsl");
 	testShader->Link();
+	Texture* penguinTexture = resourceManager.Create<Texture>("PenguinTexture", "Assets/Textures/penguin.png");
+	penguinTexture->Load();
 }
 
 void FramebufferSizeCallback(GLFWwindow* window, int width, int height)
@@ -304,3 +324,111 @@ void FramebufferSizeCallback(GLFWwindow* window, int width, int height)
 	glViewport(0, 0, width, height);
 	glScissor(0, 0, width, height);
 }
+
+
+//#ifndef NDEBUG
+//void SetupDebugCallback()
+//{
+//
+//	auto callback = [] (GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* msg, const void* data)
+//	{
+//		const char* _source;
+//		const char* _type;
+//		const char* _severity;
+//
+//		switch (source) {
+//		case GL_DEBUG_SOURCE_API:
+//			_source = "API";
+//			break;
+//
+//		case GL_DEBUG_SOURCE_WINDOW_SYSTEM:
+//			_source = "WINDOW SYSTEM";
+//			break;
+//
+//		case GL_DEBUG_SOURCE_SHADER_COMPILER:
+//			_source = "SHADER COMPILER";
+//			break;
+//
+//		case GL_DEBUG_SOURCE_THIRD_PARTY:
+//			_source = "THIRD PARTY";
+//			break;
+//
+//		case GL_DEBUG_SOURCE_APPLICATION:
+//			_source = "APPLICATION";
+//			break;
+//
+//		case GL_DEBUG_SOURCE_OTHER:
+//			_source = "UNKNOWN";
+//			break;
+//
+//		default:
+//			_source = "UNKNOWN";
+//			break;
+//		}
+//
+//		switch (type) {
+//		case GL_DEBUG_TYPE_ERROR:
+//			_type = "ERROR";
+//			break;
+//
+//		case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR:
+//			_type = "DEPRECATED BEHAVIOR";
+//			break;
+//
+//		case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR:
+//			_type = "UDEFINED BEHAVIOR";
+//			break;
+//
+//		case GL_DEBUG_TYPE_PORTABILITY:
+//			_type = "PORTABILITY";
+//			break;
+//
+//		case GL_DEBUG_TYPE_PERFORMANCE:
+//			_type = "PERFORMANCE";
+//			break;
+//
+//		case GL_DEBUG_TYPE_OTHER:
+//			_type = "OTHER";
+//			break;
+//
+//		case GL_DEBUG_TYPE_MARKER:
+//			_type = "MARKER";
+//			break;
+//
+//		default:
+//			_type = "UNKNOWN";
+//			break;
+//		}
+//
+//		switch (severity) {
+//		case GL_DEBUG_SEVERITY_HIGH:
+//			_severity = "HIGH";
+//			break;
+//
+//		case GL_DEBUG_SEVERITY_MEDIUM:
+//			_severity = "MEDIUM";
+//			break;
+//
+//		case GL_DEBUG_SEVERITY_LOW:
+//			_severity = "LOW";
+//			break;
+//
+//		case GL_DEBUG_SEVERITY_NOTIFICATION:
+//			_severity = "NOTIFICATION";
+//			break;
+//
+//		default:
+//			_severity = "UNKNOWN";
+//			break;
+//		}
+//
+//		printf("%d: %s of %s severity, raised from %s: %s\n", id, _type, _severity, _source, msg);
+//	};
+//
+//	glEnable(GL_DEBUG_OUTPUT);
+//	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+//	glDebugMessageCallback(callback, nullptr);
+//	glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, true);
+//	
+//}
+//#endif

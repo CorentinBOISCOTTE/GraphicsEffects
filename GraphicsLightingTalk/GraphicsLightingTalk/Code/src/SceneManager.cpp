@@ -71,7 +71,7 @@ void SampleScene(Scene* scene, GLFWwindow* window, ResourceManager* resourceMana
 	//Create Object/Texture
 	Model* terrain = resourceManager->Get<Model>("Terrain");
 	Model* cube = resourceManager->Get<Model>("Cube");
-	Texture* grassTexture = resourceManager->Get<Texture>("Grass");
+	Texture* woodTexture = resourceManager->Get<Texture>("TreeTexture");
 	Texture* skyboxTexture = resourceManager->Get<Texture>("Skybox");
 	Texture* treeTexture = resourceManager->Get<Texture>("TreeTexture");
 	Model* tree = resourceManager->Get<Model>("Tree");
@@ -132,8 +132,8 @@ void SampleScene(Scene* scene, GLFWwindow* window, ResourceManager* resourceMana
 		scene->lights.push_back(spotLight);
 	}
 
-	scene->sceneGraph.CreateObject("terrain", { 0.f, 0.f, 0.f }, { 0.f, 0.f, 0.f }, { 1.f, 1.f, 1.f }, terrain, grassTexture, material, terrainShader);
-	scene->sceneGraph.CreateObject("cube", { 0.f, -15.f, 0.f }, { 0.f, 0.f, 0.f }, { 1500.f, 0.01f, 1500.f }, cube, grassTexture, material, reflectionShader);
+	scene->sceneGraph.CreateObject("terrain", { 0.f, 0.f, 0.f }, { 0.f, 0.f, 0.f }, { 1.f, 1.f, 1.f }, terrain, woodTexture, material, terrainShader);
+	scene->sceneGraph.CreateObject("cube", { 0.f, -15.f, 0.f }, { 0.f, 0.f, 0.f }, { 1500.f, 0.01f, 1500.f }, cube, woodTexture, material, reflectionShader);
 	/*scene->sceneGraph.CreateObject("tree", { 0, 0, 0 }, { 0, 0, 0 }, { 1, 1, 1}, tree, treeTexture, material, shader);*/
 }
 
